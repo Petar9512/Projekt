@@ -10,7 +10,7 @@ namespace Fakultet.Data
         public DbSet<Smjer> Smjerovi { get; set; }
         public DbSet<Kolegij> Kolegiji { get; set; }
         public DbSet<Student> Studenti { get; set; }
-        public DbSet<IspitniRok> Rokovi { get; set; }
-        public DbSet<Prijava> Prijave { get; set; }
+        public DbSet<IspitniRok> IspitniRok { get; set; }
+        public DbSet<Prijava> Prijava { get; set; }
     }
 }

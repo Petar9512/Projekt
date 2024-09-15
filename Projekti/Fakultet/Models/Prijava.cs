@@ -3,9 +3,10 @@ namespace Fakultet.Models
 {
     public class Prijava : Entitet
     {
-
-        public Student? Student { get; set; }
-        public IspitniRok? IspitniRok { get; set; }
+        [Column("studentID")]
+        public int? Student { get; set; }
+        [Column("ispitniRokID")]
+        public int? IspitniRok { get; set; }
         public bool? Pristupio { get; set; }
 
     }

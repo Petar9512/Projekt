@@ -6,6 +6,5 @@ namespace Fakultet.Models
     {
         [Key]
         public int? Sifra { get; set; }
-        public string? Naziv { get; set; }
     }
 }

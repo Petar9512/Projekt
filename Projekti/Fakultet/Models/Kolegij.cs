@@ -3,8 +3,9 @@ namespace Fakultet.Models
 {
     public class Kolegij : Entitet
     {
-
-        public Smjer? Smjer { get; set; }
+        [Column("smjerID")]
+        public int? Smjer { get; set; }
+        public string? Naziv { get; set; }
         public string? Predavac { get; set; }
         public bool? Obavezni { get; set; }
 
