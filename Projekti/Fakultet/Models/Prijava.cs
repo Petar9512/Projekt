@@ -1,6 +1,7 @@
-﻿namespace Fakultet.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+namespace Fakultet.Models
 {
-    public class Prijava
+    public class Prijava : Entitet
     {
 
         public Student? Student { get; set; }

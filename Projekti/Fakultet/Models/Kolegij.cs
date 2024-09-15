@@ -1,4 +1,5 @@
-﻿namespace Fakultet.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+namespace Fakultet.Models
 {
     public class Kolegij : Entitet
     {
