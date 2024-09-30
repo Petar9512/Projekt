@@ -15,6 +15,13 @@ builder.Services.AddDbContext<FakultetContext>(opcije =>
     opcije.UseSqlServer(builder.Configuration.GetConnectionString("FakultetContext"));
 });
 
+builder.Services.AddCors(opcije =>
+{
+    opcije.AddPolicy("Cors Policy",
+        builder =>
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +40,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("Cors Policy");
 
 app.UseDefaultFiles();
 
