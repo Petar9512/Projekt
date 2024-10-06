@@ -43,9 +43,9 @@ app.MapControllers();
 
 app.UseCors("Cors Policy");
 
-app.UseDefaultFiles();
+app.UseStaticFiles();
 
-app.UseDeveloperExceptionPage();
+app.UseDefaultFiles();
 
 app.MapFallbackToFile("index.html");
 
