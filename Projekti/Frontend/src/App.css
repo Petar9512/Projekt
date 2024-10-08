@@ -1,0 +1,20 @@
+.ruka {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.desno {
+    text-align: right;
+}
+
+.sredina {
+    text-align: center;
+}
+
+.siroko {
+    width: 100%;
+}
+
+.random {
+    margin-top: 20px;
+}
