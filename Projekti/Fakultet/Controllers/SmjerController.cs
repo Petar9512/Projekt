@@ -1,54 +1,111 @@
-﻿using Fakultet.Data;
+﻿using AutoMapper;
+using Fakultet.Data;
 using Fakultet.Models;
+using Fakultet.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fakultet.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class SmjerController : ControllerBase
+    public class SmjerController(FakultetContext context, IMapper mapper) : FakultetController(context, mapper)
     {
 
-        private readonly FakultetContext _context;
-        public SmjerController(FakultetContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<List<SmjerDTORead>> Get()
         {
-            return Ok(_context.Smjerovi);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            try
+            {
+                return Ok(_mapper.Map<List<SmjerDTORead>>(_context.Smjerovi));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
         }
 
         [HttpGet]
         [Route("{sifra:int}")]
-        public IActionResult GetBySifra(int sifra)
+        public ActionResult<SmjerDTORead> GetBySifra(int sifra)
         {
-            return Ok(_context.Smjerovi.Find(sifra));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            Smjer? e;
+            try
+            {
+                e = _context.Smjerovi.Find(sifra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            if (e == null)
+            {
+                return NotFound(new { poruka = "Smjer ne postoji u bazi" });
+            }
+            return Ok(_mapper.Map<SmjerDTORead>(e));
         }
 
         [HttpPost]
-        public IActionResult Post(Smjer smjer)
+        public IActionResult Post(SmjerDTOInsertUpdate dto)
         {
-            _context.Smjerovi.Add(smjer);
-            _context.SaveChanges();
-            return StatusCode(StatusCodes.Status201Created, smjer);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            try
+            {
+                var e = _mapper.Map<Smjer>(dto);
+                _context.Smjerovi.Add(e);
+                _context.SaveChanges();
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<SmjerDTORead>(e));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
         }
 
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
-        public IActionResult Put(int sifra, Smjer smjer)
+        public IActionResult Put(int sifra, SmjerDTOInsertUpdate dto)
         {
-            var smjerBaza = _context.Smjerovi.Find(sifra);
-            smjerBaza.Naziv = smjer.Naziv;
-            smjerBaza.BrojStudenata = smjer.BrojStudenata;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            try
+            {
+                Smjer? e;
+                try
+                {
+                    e = _context.Smjerovi.Find(sifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Smjer ne postoji u bazi" });
+                }
 
-            _context.Smjerovi.Update(smjerBaza);
-            _context.SaveChanges();
-
-            return Ok(new { poruka = "Uspješno promijenjeno" });
+                e = _mapper.Map(dto, e);
+                _context.Smjerovi.Update(e);
+                _context.SaveChanges();
+                return Ok(new { poruka = "Uspješno promijenjeno" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
         }
 
         [HttpDelete]
@@ -56,11 +113,33 @@ namespace Fakultet.Controllers
         [Produces("application/json")]
         public IActionResult Delete(int sifra)
         {
-            var smjerBaza = _context.Smjerovi.Find(sifra);
-            _context.Smjerovi.Remove(smjerBaza);
-            _context.SaveChanges();
-
-            return Ok(new { poruka = "Uspješno obrisano" });
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            try
+            {
+                Smjer? e;
+                try
+                {
+                    e = _context.Smjerovi.Find(sifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Smjer ne postoji u bazi" });
+                }
+                _context.Smjerovi.Remove(e);
+                _context.SaveChanges();
+                return Ok(new { poruka = "Uspješno obrisano" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
         }
     }
 }

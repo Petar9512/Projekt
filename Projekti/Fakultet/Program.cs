@@ -1,4 +1,5 @@
 using Fakultet.Data;
+using Fakultet.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder.Services.AddCors(opcije =>
         builder =>
         builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
+
+builder.Services.AddAutoMapper(typeof(FakultetMappingProfile));
 
 var app = builder.Build();
 
