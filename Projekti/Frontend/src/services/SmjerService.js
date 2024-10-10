@@ -24,21 +24,39 @@ async function brisanje(sifra) {
 
 async function dodaj(smjer) {
     return await HttpService.post('/Smjer', smjer)
-    .then(()=>{
-        return {greska: false, poruka: "Smjer dodan"}
+    .then((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
     })
-    .catch(()=>{
-        return {greska: true, poruka: "Problem kod dodavanja smjera"}
+    .catch((e)=>{
+        switch (e.status) {
+            case 400:
+                let poruke = '';
+                for (const kljuc in e.response.data.errors) {
+                    poruke += kljuc + ': ' + e.response.data.errors[kljuc][0] + '\n';
+                }
+                return {greska: true, poruka: poruke}
+            default:
+                return {greska: true, poruka: 'Smjer se ne može dodati'}
+        }
     })
 }
 
 async function promjena(sifra, smjer) {
     return await HttpService.put('/Smjer/' + sifra, smjer)
-    .then(()=>{
-        return {greska: false, poruka: "Promjena uspješna"}
+    .then((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
     })
-    .catch(()=>{
-        return {greska: true, poruka: "Problem kod promjene smjera"}
+    .catch((e)=>{
+        switch(e.status) {
+            case 400:
+                let poruke = '';
+                for (const kljuc in e.response.data.errors) {
+                    poruke += kljuc + ': ' + e.response.data.errors[kljuc][0] + '\n';
+                }
+                return {greska: true, poruka: poruke}
+            default:
+                return {greska: true, poruka: 'Smjer se ne može promijeniti'}
+        }
     })
 }
 
