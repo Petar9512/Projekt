@@ -6,6 +6,7 @@ namespace Fakultet.Models.DTO
 
         [Required(ErrorMessage = "Naziv obavezan")]
         string Naziv,
+        [Range(20, 80, ErrorMessage = "{0} mora biti između {1} i {2}")]
         int? brojStudenata
         );
 

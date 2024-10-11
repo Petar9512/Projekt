@@ -12,5 +12,10 @@ namespace Fakultet.Data
         public DbSet<Student> Studenti { get; set; }
         public DbSet<IspitniRok> IspitniRok { get; set; }
         public DbSet<Prijava> Prijava { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Student>().HasOne(s => s.Smjer);
+        }
     }
 }

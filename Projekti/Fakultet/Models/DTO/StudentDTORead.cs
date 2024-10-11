@@ -2,7 +2,8 @@
 {
     public record StudentDTORead(
 
-        int? Smjer,
+        int Sifra,
+        string? SmjerNaziv,
         string Ime,
         string Prezime,
         string? Oib

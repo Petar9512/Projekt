@@ -3,6 +3,7 @@ using Fakultet.Data;
 using Fakultet.Models;
 using Fakultet.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fakultet.Controllers
 {
@@ -20,7 +21,7 @@ namespace Fakultet.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<StudentDTORead>>(_context.Studenti));
+                return Ok(_mapper.Map<List<StudentDTORead>>(_context.Studenti.Include(g => g.Smjer)));
             }
             catch (Exception ex)
             {
@@ -30,7 +31,7 @@ namespace Fakultet.Controllers
 
         [HttpGet]
         [Route("{sifra:int}")]
-        public ActionResult<StudentDTORead> GetBySifra(int sifra)
+        public ActionResult<StudentDTOInsertUpdate> GetBySifra(int sifra)
         {
             if (!ModelState.IsValid)
             {
@@ -39,7 +40,7 @@ namespace Fakultet.Controllers
             Student? e;
             try
             {
-                e = _context.Studenti.Find(sifra);
+                e = _context.Studenti.Include(s => s.Smjer).FirstOrDefault(s => s.Sifra == sifra);
             }
             catch (Exception ex)
             {
@@ -49,7 +50,7 @@ namespace Fakultet.Controllers
             {
                 return NotFound(new { poruka = "Student ne postoji u bazi" });
             }
-            return Ok(_mapper.Map<StudentDTORead>(e));
+            return Ok(_mapper.Map<StudentDTOInsertUpdate>(e));
         }
 
         [HttpPost]
@@ -59,9 +60,25 @@ namespace Fakultet.Controllers
             {
                 return BadRequest(new { poruka = ModelState });
             }
+
+            Smjer? es;
+            try
+            {
+                es = _context.Smjerovi.Find(dto.SmjerSifra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            if (es == null)
+            {
+                return NotFound(new { poruka = "Smjer na studentu ne postoji u bazi" });
+            }
+
             try
             {
                 var e = _mapper.Map<Student>(dto);
+                e.Smjer = es;
                 _context.Studenti.Add(e);
                 _context.SaveChanges();
                 return StatusCode(StatusCodes.Status201Created, _mapper.Map<StudentDTORead>(e));
@@ -86,7 +103,7 @@ namespace Fakultet.Controllers
                 Student? e;
                 try
                 {
-                    e = _context.Studenti.Find(sifra);
+                    e = _context.Studenti.Include(s => s.Smjer).FirstOrDefault(x => x.Sifra == sifra);
                 }
                 catch (Exception ex) 
                 {
@@ -97,11 +114,26 @@ namespace Fakultet.Controllers
                     return NotFound(new { poruka = "Student ne postoji u bazi" });
                 }
 
+                Smjer? es;
+                try
+                {
+                    es = _context.Smjerovi.Find(dto.SmjerSifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (es == null)
+                {
+                    return NotFound(new { poruka = "Smjer na studentu ne postoji u bazi" });
+                }
+
                 e = _mapper.Map(dto, e);
+                e.Smjer = es;
                 _context.Studenti.Update(e);
                 _context.SaveChanges();
 
-                return Ok(new { poruka = "Uspješno promijenjeo" });
+                return Ok(new { poruka = "Uspješno promijenjeno" });
             }
             catch (Exception ex)
             {
