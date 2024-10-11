@@ -16,6 +16,7 @@ namespace Fakultet.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Student>().HasOne(s => s.Smjer);
+            modelBuilder.Entity<Kolegij>().HasOne(k => k.Smjer);
         }
     }
 }

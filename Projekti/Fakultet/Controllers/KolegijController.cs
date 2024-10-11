@@ -1,69 +1,184 @@
-﻿using Fakultet.Data;
+﻿using AutoMapper;
+using Fakultet.Data;
 using Fakultet.Models;
+using Fakultet.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fakultet.Controllers
 {
 
         [ApiController]
         [Route("api/v1/[controller]")]
-        public class KolegijController : ControllerBase
+        public class KolegijController(FakultetContext context, IMapper mapper) : FakultetController(context, mapper)
         {
 
-            private readonly FakultetContext _context;
-            public KolegijController(FakultetContext context)
+        [HttpGet]
+        public ActionResult<List<KolegijDTORead>> Get()
+        {
+            if (!ModelState.IsValid)
             {
-                _context = context;
+                return BadRequest(new { poruka = ModelState });
             }
+            try
+            {
+                return Ok(_mapper.Map<List<KolegijDTORead>>(_context.Kolegiji.Include(k => k.Smjer)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
 
-            [HttpGet]
-            public IActionResult Get()
-            {
-                return Ok(_context.Kolegiji);
-            }
 
             [HttpGet]
             [Route("{sifra:int}")]
-            public IActionResult GetBySifra(int sifra)
+            public ActionResult<KolegijDTOInsertUpdate> GetBySifra(int sifra)
             {
-                return Ok(_context.Kolegiji.Find(sifra));
+                if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            Kolegij? e;
+            try
+            {
+                e = _context.Kolegiji.Include(k => k.Smjer).FirstOrDefault(k => k.Sifra == sifra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            if (e == null)
+            {
+                return NotFound(new { poruka = "Kolegij ne postoji u bazi" });
             }
 
-            [HttpPost]
-            public IActionResult Post(Kolegij kolegij)
-            {
-                _context.Kolegiji.Add(kolegij);
-                _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, kolegij);
+            return Ok(_mapper.Map<KolegijDTOInsertUpdate>(e));
             }
+
+
+            [HttpPost]
+            public IActionResult Post(KolegijDTOInsertUpdate dto)
+            {
+                if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            Smjer? es;
+            try
+            {
+                es = _context.Smjerovi.Find(dto.SmjerSifra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            if (es == null)
+            {
+                return NotFound(new { poruka = "Smjer na kolegiju ne postoji u bazi" });
+            }
+
+            try
+            {
+                var e = _mapper.Map<Kolegij>(dto);
+                e.Smjer = es;
+                _context.Kolegiji.Add(e);
+                _context.SaveChanges();
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<KolegijDTORead>(e));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            }
+
 
             [HttpPut]
             [Route("{sifra:int}")]
             [Produces("application/json")]
-            public IActionResult Put(int sifra, Kolegij kolegij)
+            public IActionResult Put(int sifra, KolegijDTOInsertUpdate dto)
             {
-                var kolegijBaza = _context.Kolegiji.Find(sifra);
-                kolegijBaza.Smjer = kolegij.Smjer;
-                kolegijBaza.Naziv = kolegij.Naziv;
-                kolegijBaza.Predavac = kolegij.Predavac;
-                kolegijBaza.Obavezni = kolegij.Obavezni;
+                if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+                try
+            {
+                Kolegij? e;
+                try
+                {
+                    e = _context.Kolegiji.Include(k => k.Smjer).FirstOrDefault(x => x.Sifra == sifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Kolegij ne postoji u bazi" });
+                }
 
-                _context.Kolegiji.Update(kolegijBaza);
+                Smjer? es;
+                try
+                {
+                    es = _context.Smjerovi.Find(dto.SmjerSifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (es == null)
+                {
+                    return NotFound(new { poruka = "Smjer na kolegiju ne postoji u bazi" });
+                }
+
+                e = _mapper.Map(dto, e);
+                e.Smjer = es;
+                _context.Kolegiji.Update(e);
                 _context.SaveChanges();
 
                 return Ok(new { poruka = "Uspješno promijenjeno" });
             }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            }
+
 
             [HttpDelete]
             [Route("{sifra:int}")]
             [Produces("application/json")]
             public IActionResult Delete(int sifra)
             {
-                var kolegijBaza = _context.Kolegiji.Find(sifra);
-                _context.Kolegiji.Remove(kolegijBaza);
-                _context.SaveChanges();
+                if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+                try
+            {
+                Kolegij? e;
+                try
+                {
+                    e = _context.Kolegiji.Find(sifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Kolegij ne postoji u bazi" });
+                }
 
-                return Ok(new { poruka = "Uspješno obrisano" });
+                _context.Kolegiji.Remove(e);
+                _context.SaveChanges();
+                return Ok(new { poruka = "Kolegij uspješno obrisan" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
             }
         }
     }
