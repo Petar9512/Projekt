@@ -3,7 +3,6 @@ import { RouteNames } from "../../constants";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import StudentService from "../../services/StudentService";
 
-
 export default function StudentiDodaj() {
 
     const navigate = useNavigate();
@@ -20,7 +19,7 @@ export default function StudentiDodaj() {
         function obradiSubmit(e) {
             e.preventDefault();
 
-            const podatci = new FormData(e.target);
+            let podatci = new FormData(e.target);
             dodaj({
                 ime: podatci.get('ime'),
                 prezime: podatci.get('prezime'),

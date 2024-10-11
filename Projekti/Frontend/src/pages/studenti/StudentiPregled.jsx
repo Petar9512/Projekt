@@ -14,7 +14,7 @@ export default function StudentiPregled(){
 
         await StudentService.get()
         .then((odgovor)=>{
-            setPolaznici(odgovor);
+            setStudenti(odgovor);
         })
         .catch((e)=>{console.log(e)});
     }
@@ -40,7 +40,7 @@ export default function StudentiPregled(){
 
     return(
     <>
-    <Link to={RouteNames.STUDENT_NOVI}>Dodaj novog studenta</Link>
+    <Link to={RouteNames.STUDENT_NOVI} className="btn btn-success siroko">Dodaj novog studenta</Link>
     <Table striped bordered hover responsive>
         <thead>
             <tr>

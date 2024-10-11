@@ -20,7 +20,8 @@ builder.Services.AddCors(opcije =>
 {
     opcije.AddPolicy("Cors Policy",
         builder =>
-        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+        );
 });
 
 builder.Services.AddAutoMapper(typeof(FakultetMappingProfile));
@@ -44,12 +45,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors("Cors Policy");
-
 app.UseStaticFiles();
 
 app.UseDefaultFiles();
 
 app.MapFallbackToFile("index.html");
+
+app.UseCors("Cors Policy");
 
 app.Run();
