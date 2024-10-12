@@ -1,67 +1,183 @@
-﻿using Fakultet.Data;
+﻿using AutoMapper;
+using Fakultet.Data;
 using Fakultet.Models;
+using Fakultet.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fakultet.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class IspitniRokController : ControllerBase
+    public class IspitniRokController(FakultetContext context, IMapper mapper) : FakultetController(context, mapper)
     {
 
-        private readonly FakultetContext _context;
-        public IspitniRokController(FakultetContext context)
+        [HttpGet]
+        public ActionResult<List<IspitniRokDTORead>> Get()
         {
-            _context = context;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            try
+            {
+                return Ok(_mapper.Map<List<IspitniRokDTORead>>(_context.IspitniRok.Include(i => i.Kolegij)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
         }
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok(_context.IspitniRok);
-        }
 
         [HttpGet]
         [Route("{sifra:int}")]
-        public IActionResult GetBySifra(int sifra)
+        public ActionResult<IspitniRokDTOInsertUpdate> GetBySifra(int sifra)
         {
-            return Ok(_context.IspitniRok.Find(sifra));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            IspitniRok? e;
+            try
+            {
+                e = _context.IspitniRok.Include(i => i.Kolegij).FirstOrDefault(i => i.Sifra == sifra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            if (e == null)
+            {
+                return NotFound(new { poruka = "Ispitni rok ne postoji u bazi" });
+            }
+
+            return Ok(_mapper.Map<IspitniRokDTOInsertUpdate>(e));
         }
 
+
         [HttpPost]
-        public IActionResult Post(IspitniRok rok)
+        public IActionResult Post(IspitniRokDTOInsertUpdate dto)
         {
-            _context.IspitniRok.Add(rok);
-            _context.SaveChanges();
-            return StatusCode(StatusCodes.Status201Created, rok);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            Kolegij? es;
+            try
+            {
+                es = _context.Kolegiji.Find(dto.KolegijSifra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            if (es == null)
+            {
+                return NotFound(new { poruka = "Kolegij na ispitnom roku ne postoji u bazi" });
+            }
+
+            try
+            {
+                var e = _mapper.Map<IspitniRok>(dto);
+                e.Kolegij = es;
+                _context.IspitniRok.Add(e);
+                _context.SaveChanges();
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<IspitniRokDTORead>(e));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
         }
+
 
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
-        public IActionResult Put(int sifra, IspitniRok rok)
+        public IActionResult Put(int sifra, IspitniRokDTOInsertUpdate dto)
         {
-            var rokBaza = _context.IspitniRok.Find(sifra);
-            rokBaza.Kolegij = rok.Kolegij;
-            rokBaza.VrstaIspita = rok.VrstaIspita;
-            rokBaza.Datum = rok.Datum;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            try
+            {
+                IspitniRok? e;
+                try
+                {
+                    e = _context.IspitniRok.Include(i => i.Kolegij).FirstOrDefault(x => x.Sifra == sifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Ispitni rok ne postoji u bazi" });
+                }
 
-            _context.IspitniRok.Update(rokBaza);
-            _context.SaveChanges();
+                Kolegij? es;
+                try
+                {
+                    es = _context.Kolegiji.Find(dto.KolegijSifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (es == null)
+                {
+                    return NotFound(new { poruka = "Kolegij na ispitnom roku ne postoji u bazi" });
+                }
 
-            return Ok(new { poruka = "Uspješno promijenjeno" });
+                e = _mapper.Map(dto, e);
+                e.Kolegij = es;
+                _context.IspitniRok.Update(e);
+                _context.SaveChanges();
+
+                return Ok(new { poruka = "Uspješno promijenjeno" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
         }
+
 
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]
         public IActionResult Delete(int sifra)
         {
-            var rokBaza = _context.IspitniRok.Find(sifra);
-            _context.IspitniRok.Remove(rokBaza);
-            _context.SaveChanges();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            try
+            {
+                IspitniRok? e;
+                try
+                {
+                    e = _context.IspitniRok.Find(sifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Ispitni rok ne postoji u bazi" });
+                }
 
-            return Ok(new { poruka = "Uspješno obrisano" });
+                _context.IspitniRok.Remove(e);
+                _context.SaveChanges();
+                return Ok(new { poruka = "Ispitni rok uspješno obrisan" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
         }
     }
 }

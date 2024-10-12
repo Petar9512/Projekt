@@ -32,6 +32,17 @@ namespace Fakultet.Mapping
                 opt => opt.MapFrom(src => src.Smjer.Sifra));
 
             CreateMap<KolegijDTOInsertUpdate, Kolegij>();
+
+            CreateMap<IspitniRok, IspitniRokDTORead>()
+                .ForCtorParam(
+                "KolegijNaziv",
+                opt => opt.MapFrom(src => src.Kolegij.Naziv));
+
+            CreateMap<IspitniRok, IspitniRokDTOInsertUpdate>().ForMember(
+                dest => dest.KolegijSifra,
+                opt => opt.MapFrom(src => src.Kolegij.Sifra));
+
+            CreateMap<IspitniRokDTOInsertUpdate, IspitniRok>();
         }
     }
 }

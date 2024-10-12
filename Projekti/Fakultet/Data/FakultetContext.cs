@@ -17,6 +17,7 @@ namespace Fakultet.Data
         {
             modelBuilder.Entity<Student>().HasOne(s => s.Smjer);
             modelBuilder.Entity<Kolegij>().HasOne(k => k.Smjer);
+            modelBuilder.Entity<IspitniRok>().HasOne(i => i.Kolegij);
         }
     }
 }
