@@ -19,8 +19,8 @@ namespace Fakultet.Data
             modelBuilder.Entity<IspitniRok>().HasOne(i => i.Kolegij);
 
             modelBuilder.Entity<IspitniRok>()
-                .HasMany(i => i.Studenti)
-                .WithMany(p => p.IspitniRok)
+                .HasMany(i => i.Pristupnici)
+                .WithMany(p => p.Rokovi)
                 .UsingEntity<Dictionary<string, object>>("Prijava",
                 e => e.HasOne<Student>().WithMany().HasForeignKey("studentID"),
                 e => e.HasOne<IspitniRok>().WithMany().HasForeignKey("ispitniRokID"),

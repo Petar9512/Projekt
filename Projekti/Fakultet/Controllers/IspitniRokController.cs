@@ -193,12 +193,12 @@ namespace Fakultet.Controllers
             try
             {
                 var p = _context.IspitniRok
-                    .Include(i => i.Studenti).FirstOrDefault(x => x.Sifra == sifraRoka);
+                    .Include(i => i.Pristupnici).FirstOrDefault(x => x.Sifra == sifraRoka);
                 if (p == null)
                 {
                     return BadRequest("Ne postoji ispitni rok sa šifrom " + sifraRoka + " u bazi");
                 }
-                return Ok(_mapper.Map<List<StudentDTORead>>(p.Studenti));
+                return Ok(_mapper.Map<List<StudentDTORead>>(p.Pristupnici));
             }
             catch (Exception ex)
             {
@@ -222,7 +222,7 @@ namespace Fakultet.Controllers
             try
             {
                 var rok = _context.IspitniRok
-                    .Include(r => r.Studenti).FirstOrDefault(r => r.Sifra == sifra);
+                    .Include(r => r.Pristupnici).FirstOrDefault(r => r.Sifra == sifra);
                 if (rok == null)
                 {
                     return BadRequest("Ne postoji ispitni rok sa šifrom " + sifra + " u bazi");
@@ -234,7 +234,7 @@ namespace Fakultet.Controllers
                     return BadRequest("Ne postoji student sa šifrom " + studentSifra + " u bazi");
                 }
 
-                rok.Studenti.Add(pristupnik);
+                rok.Pristupnici.Add(pristupnik);
                 _context.IspitniRok.Update(rok);
                 _context.SaveChanges();
                 return Ok(new { poruka = "Student " + pristupnik.Prezime + " " + pristupnik.Ime + " dodan u ispitni rok - " + rok.Datum});
@@ -261,7 +261,7 @@ namespace Fakultet.Controllers
             try
             {
                 var rok = _context.IspitniRok
-                    .Include(r => r.Studenti).FirstOrDefault(r => r.Sifra == sifra);
+                    .Include(r => r.Pristupnici).FirstOrDefault(r => r.Sifra == sifra);
                 if (rok == null)
                 {
                     return BadRequest("Ne postoji ispitni rok sa šifrom " + sifra + " u bazi");
@@ -272,7 +272,7 @@ namespace Fakultet.Controllers
                 {
                     return BadRequest("Ne postoji student sa šifrom " + studentSifra + " u bazi");
                 }
-                rok.Studenti.Remove(pristupnik);
+                rok.Pristupnici.Remove(pristupnik);
                 _context.IspitniRok.Update(rok);
                 _context.SaveChanges();
                 return Ok(new { poruka = "Student " + pristupnik.Prezime + " " + pristupnik.Ime + " obrisan iz ispitnog roka - " + rok.Datum });
