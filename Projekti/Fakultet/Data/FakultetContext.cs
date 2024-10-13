@@ -11,13 +11,21 @@ namespace Fakultet.Data
         public DbSet<Kolegij> Kolegiji { get; set; }
         public DbSet<Student> Studenti { get; set; }
         public DbSet<IspitniRok> IspitniRok { get; set; }
-        public DbSet<Prijava> Prijava { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Student>().HasOne(s => s.Smjer);
             modelBuilder.Entity<Kolegij>().HasOne(k => k.Smjer);
             modelBuilder.Entity<IspitniRok>().HasOne(i => i.Kolegij);
+
+            modelBuilder.Entity<IspitniRok>()
+                .HasMany(i => i.Studenti)
+                .WithMany(p => p.IspitniRok)
+                .UsingEntity<Dictionary<string, object>>("Prijava",
+                e => e.HasOne<Student>().WithMany().HasForeignKey("studentID"),
+                e => e.HasOne<IspitniRok>().WithMany().HasForeignKey("ispitniRokID"),
+                c => c.ToTable("Prijava")
+                );
         }
     }
 }

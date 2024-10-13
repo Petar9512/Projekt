@@ -4,6 +4,7 @@ using Fakultet.Models;
 using Fakultet.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Fakultet.Controllers
 {
@@ -173,6 +174,108 @@ namespace Fakultet.Controllers
                 _context.IspitniRok.Remove(e);
                 _context.SaveChanges();
                 return Ok(new { poruka = "Ispitni rok uspješno obrisan" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
+
+
+        [HttpGet]
+        [Route("Studenti/{sifraRoka:int}")]
+        public ActionResult<List<StudentDTORead>> GetPristupnici(int sifraRoka)
+        {
+            if (!ModelState.IsValid || sifraRoka <= 0)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var p = _context.IspitniRok
+                    .Include(i => i.Studenti).FirstOrDefault(x => x.Sifra == sifraRoka);
+                if (p == null)
+                {
+                    return BadRequest("Ne postoji ispitni rok sa šifrom " + sifraRoka + " u bazi");
+                }
+                return Ok(_mapper.Map<List<StudentDTORead>>(p.Studenti));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        [Route("{sifra:int}/dodaj/{studentSifra:int}")]
+        public IActionResult DodajPristupnika(int sifra, int studentSifra)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (sifra <= 0 || studentSifra <= 0)
+            {
+                return BadRequest("Šifra ispitnog roka ili studenta nije točna");
+            }
+            try
+            {
+                var rok = _context.IspitniRok
+                    .Include(r => r.Studenti).FirstOrDefault(r => r.Sifra == sifra);
+                if (rok == null)
+                {
+                    return BadRequest("Ne postoji ispitni rok sa šifrom " + sifra + " u bazi");
+                }
+
+                var pristupnik = _context.Studenti.Find(studentSifra);
+                if (pristupnik == null)
+                {
+                    return BadRequest("Ne postoji student sa šifrom " + studentSifra + " u bazi");
+                }
+
+                rok.Studenti.Add(pristupnik);
+                _context.IspitniRok.Update(rok);
+                _context.SaveChanges();
+                return Ok(new { poruka = "Student " + pristupnik.Prezime + " " + pristupnik.Ime + " dodan u ispitni rok - " + rok.Datum});
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, ex.Message);
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("{sifra:int}/obrisi/{studentSifra:int}")]
+        public IActionResult ObrisiPolaznika(int sifra, int studentSifra)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (sifra <= 0 || studentSifra <= 0)
+            {
+                return BadRequest("Šifra ispitnog roka ili studenta nije točna");
+            }
+            try
+            {
+                var rok = _context.IspitniRok
+                    .Include(r => r.Studenti).FirstOrDefault(r => r.Sifra == sifra);
+                if (rok == null)
+                {
+                    return BadRequest("Ne postoji ispitni rok sa šifrom " + sifra + " u bazi");
+                }
+
+                var pristupnik = _context.Studenti.Find(studentSifra);
+                if (pristupnik == null)
+                {
+                    return BadRequest("Ne postoji student sa šifrom " + studentSifra + " u bazi");
+                }
+                rok.Studenti.Remove(pristupnik);
+                _context.IspitniRok.Update(rok);
+                _context.SaveChanges();
+                return Ok(new { poruka = "Student " + pristupnik.Prezime + " " + pristupnik.Ime + " obrisan iz ispitnog roka - " + rok.Datum });
             }
             catch (Exception ex)
             {

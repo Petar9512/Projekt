@@ -8,6 +8,7 @@ namespace Fakultet.Models
         public required Kolegij Kolegij { get; set; }
         public string? VrstaIspita { get; set; }
         public DateTime? Datum { get; set; }
+        public ICollection<Student>? Studenti { get; set; }
 
     }
 }
