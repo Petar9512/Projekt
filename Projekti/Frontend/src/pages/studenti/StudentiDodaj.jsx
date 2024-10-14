@@ -1,11 +1,26 @@
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import SmjerService from '../../services/SmjerService';
 import StudentService from "../../services/StudentService";
+import { useEffect, useState } from "react";
 
 export default function StudentiDodaj() {
 
     const navigate = useNavigate();
+    const [smjerovi, setSmjerovi] = useState([]);
+    const [smjerSifra, setSmjerSifra] = useState(0);
+
+    async function dohvatiSmjerove() {
+        const odgovor = await SmjerService.get();
+        setSmjerovi(odgovor.poruka);
+        setSmjerSifra(odgovor.poruka[0].sifra);
+    }
+
+    useEffect(()=>{
+        dohvatiSmjerove();
+    }, []);
+
 
     async function dodaj(e) {
         const odgovor = await StudentService.dodaj(e);
@@ -21,6 +36,7 @@ export default function StudentiDodaj() {
 
             let podatci = new FormData(e.target);
             dodaj({
+                smjerSifra: parseInt(smjerSifra),
                 ime: podatci.get('ime'),
                 prezime: podatci.get('prezime'),
                 oib: podatci.get('oib')
@@ -31,6 +47,16 @@ export default function StudentiDodaj() {
         return(
         <>
         <Form onSubmit={obradiSubmit}>
+            <Form.Group controlId='smjer'>
+                <Form.Label>Smjer</Form.Label>
+                <Form.Select onChange={(e)=>{setSmjerSifra(e.target.value)}}>
+                    {smjerovi && smjerovi.map((s, index)=>(
+                        <option key={index} value={s.sifra}>
+                            {s.naziv}
+                        </option>
+                    ))}
+                </Form.Select>
+            </Form.Group>
             <Form.Group controlId="ime">
                 <Form.Label>Ime</Form.Label>
                 <Form.Control type="text" name="ime" required />

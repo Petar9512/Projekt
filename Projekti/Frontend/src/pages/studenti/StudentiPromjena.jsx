@@ -3,13 +3,22 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import StudentService from "../../services/StudentService";
 import { RouteNames } from "../../constants";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import SmjerService from "../../services/SmjerService";
 
 
 export default function StudentiPromjena() {
 
     const navigate = useNavigate();
     const routeParams = useParams();
-    const[student, setStudent] = useState({});
+
+    const [smjerovi, setSmjerovi] = useState([]);
+    const [smjerSifra, setSmjerSifra] = useState(0);
+    const [student, setStudent] = useState({});
+
+    async function dohvatiSmjerove() {
+        const odgovor = await SmjerService.get();
+        setSmjerovi(odgovor.poruka);
+    }
 
     async function dohvatiStudenta() {
         const odgovor = await StudentService.getBySifra(routeParams.sifra);
@@ -17,11 +26,18 @@ export default function StudentiPromjena() {
             alert (odgovor.poruka);
             return;
         }
-        setStudent(odgovor.poruka);
+        let student = odgovor.poruka;
+        setStudent(student);
+        setSmjerSifra(student.smjerSifra);
+    }
+
+    async function dohvatiInicijalnePodatke() {
+        await dohvatiSmjerove();
+        await dohvatiStudenta();
     }
 
     useEffect(()=> {
-        dohvatiStudenta();
+        dohvatiInicijalnePodatke();
     }, []);
 
 
@@ -39,6 +55,7 @@ export default function StudentiPromjena() {
 
         const podatci = new FormData(e.target);
         promjena({
+            smjerSifra: parseInt(smjerSifra),
             ime: podatci.get('ime'),
             prezime: podatci.get('prezime'),
             oib: podatci.get('oib')
@@ -49,6 +66,16 @@ export default function StudentiPromjena() {
     return(
     <>
     <Form onSubmit={obradiSubmit}>
+        <Form.Group controlId='smjer'>
+            <Form.Label>Smjer</Form.Label>
+            <Form.Select value={smjerSifra} onChange={(e)=>{setSmjerSifra(e.target.value)}}>
+                {smjerovi && smjerovi.map((s, index)=>(
+                    <option key={index} value={s.sifra}>
+                        {s.naziv}
+                    </option>
+                ))}
+            </Form.Select>
+        </Form.Group>
         <Form.Group controlId="ime">
             <Form.Label>Ime</Form.Label>
             <Form.Control type="text" name="ime" required defaultValue={student.ime} />
