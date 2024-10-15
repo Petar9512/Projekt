@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import SmjerService from "../../services/SmjerService"
 import { Button, Table } from "react-bootstrap";
-import moment from "moment/moment";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
 
@@ -21,15 +20,7 @@ setSmjerovi(odgovor.poruka)
 
 useEffect(()=>{
 dohvatiSmjerove();
-},[])
-
-
-function formatirajDatum(datum) {
-    if (datum==null) {
-        return "Nije definirano";
-    }
-    return moment.utc(datum).format('DD.MM.YYYY. hh:mm:ss');
-}
+},[]);
 
 
 function obrisi(sifra) {

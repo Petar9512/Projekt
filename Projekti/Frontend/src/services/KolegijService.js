@@ -1,35 +1,28 @@
 import { HttpService } from "./HttpService";
 
-async function get(){
+async function get() {
     return await HttpService.get('/Kolegij')
     .then((odgovor)=>{
-        return odgovor.data;
-    })
-    .catch((e)=>{console.error(e)})
-}
-
-async function getBySifra(sifra){
-    return await HttpService.get('/Kolegij/' + sifra)
-    .then((odgovor)=>{
         return {greska: false, poruka: odgovor.data}
     })
-    .catch(()=>{
-        return {greska: true, poruka: 'Kolegij ne postoji'}
+    .catch((e)=>{
+        console.log(e)
+        return {greska: true, poruka: 'Problem kod dohvaćanja kolegija'}
     })
 }
 
-async function obrisi(sifra){
+async function obrisi(sifra) {
     return await HttpService.delete('/Kolegij/' + sifra)
-    .then((odgovor)=>{
-        return {greska: false, poruka: odgovor.data}
+    .then(()=>{
+        return {greska: false, poruka: 'Obrisano'}
     })
     .catch(()=>{
-        return {greska: true, poruka: 'Kolegij se ne može obrisati'}
+        return {greska: true, poruka: 'Problem kod brisanja kolegija'}
     })
 }
 
-async function dodaj(Kolegij){
-    return await HttpService.post('/Kolegij', Kolegij)
+async function dodaj(kolegij) {
+    return await HttpService.post('/Kolegij', kolegij)
     .then((odgovor)=>{
         return {greska: false, poruka: odgovor.data}
     })
@@ -47,13 +40,13 @@ async function dodaj(Kolegij){
     })
 }
 
-async function promjena(sifra, Kolegij){
-    return await HttpService.put('/Kolegij/' + sifra, Kolegij)
+async function promjena(sifra, kolegij) {
+    return await HttpService.put('/Kolegij/' + sifra, kolegij)
     .then((odgovor)=>{
         return {greska: false, poruka: odgovor.data}
     })
     .catch((e)=>{
-        switch (e.status) {
+        switch(e.status) {
             case 400:
                 let poruke = '';
                 for (const kljuc in e.response.data.errors) {
@@ -61,15 +54,26 @@ async function promjena(sifra, Kolegij){
                 }
                 return {greska: true, poruka: poruke}
             default:
-                return {greska: true, poruka: 'Kolegij se ne može promijenti'}
+                return {greska: true, poruka: 'Kolegij se ne može promijeniti'}
         }
     })
 }
 
+async function getBySifra(sifra) {
+    return await HttpService.get('/Kolegij/' + sifra)
+    .then((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch((e)=>{
+        return {greska: true, poruka: "Problem kod dohvaćanja kolegija sa šifrom" + sifra}
+    })
+}
+
+
 export default {
     get,
-    getBySifra,
-    dodaj,
     obrisi,
+    dodaj,
+    getBySifra,
     promjena
 }

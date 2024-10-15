@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import KolegijService from "../../services/KolegijService";
 import { Button, Table } from "react-bootstrap";
 import { RouteNames } from "../../constants";
-import { GrValidate } from "react-icons/gr";
 
 
 export default function KolegijiPregled(){
