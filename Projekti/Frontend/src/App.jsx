@@ -11,6 +11,9 @@ import SmjeroviPromjena from './pages/smjerovi/SmjeroviPromjena';
 import StudentiPregled from './pages/studenti/StudentiPregled';
 import StudentiDodaj from './pages/studenti/StudentiDodaj';
 import StudentiPromjena from './pages/studenti/StudentiPromjena';
+import KolegijiPregled from './pages/kolegiji/KolegijiPregled';
+import KolegijiDodaj from './pages/kolegiji/KolegijiDodaj';
+import KolegijiPromjena from './pages/kolegiji/KolegijiPromjena';
 
 function App() {
   
@@ -28,6 +31,10 @@ function App() {
         <Route path={RouteNames.STUDENT_PREGLED} element={<StudentiPregled />} />
         <Route path={RouteNames.STUDENT_NOVI} element={<StudentiDodaj />} />
         <Route path={RouteNames.STUDENT_PROMJENA} element={<StudentiPromjena />} />
+
+        <Route path={RouteNames.KOLEGIJ_PREGLED} element={<KolegijiPregled />} />
+        <Route path={RouteNames.KOLEGIJ_NOVI} element={<KolegijiDodaj />} />
+        <Route path={RouteNames.KOLEGIJ_PROMJENA} element={<KolegijiPromjena />} />
 
       </Routes>
       <hr />

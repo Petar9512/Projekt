@@ -18,7 +18,7 @@ const navigate = useNavigate();
             <Nav.Link href="https://sandworm-001-site1.ftempurl.com/swagger/index.html" target="_blank">Swagger</Nav.Link>
             <NavDropdown title="Programi" id="basic-nav-dropdown">
               <NavDropdown.Item onClick={()=> navigate(RouteNames.SMJER_PREGLED)}>Smjerovi</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
+              <NavDropdown.Item onClick={()=>navigate(RouteNames.KOLEGIJ_PREGLED)}>
                 Kolegiji
               </NavDropdown.Item>
               <NavDropdown.Item onClick={()=>navigate(RouteNames.STUDENT_PREGLED)}>Studenti</NavDropdown.Item>
