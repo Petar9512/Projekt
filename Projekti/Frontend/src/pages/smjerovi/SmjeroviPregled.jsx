@@ -31,11 +31,6 @@ function formatirajDatum(datum) {
     return moment.utc(datum).format('DD.MM.YYYY. hh:mm:ss');
 }
 
-function pristupio(p) {
-    if (p==null) return 'gray'
-    if (p) return 'green'
-    return 'red'
-}
 
 function obrisi(sifra) {
     if (!confirm('Sigurno obrisati?')) {
