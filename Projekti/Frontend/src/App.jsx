@@ -14,6 +14,9 @@ import StudentiPromjena from './pages/studenti/StudentiPromjena';
 import KolegijiPregled from './pages/kolegiji/KolegijiPregled';
 import KolegijiDodaj from './pages/kolegiji/KolegijiDodaj';
 import KolegijiPromjena from './pages/kolegiji/KolegijiPromjena';
+import RokoviPregled from './pages/rokovi/RokoviPregled';
+import RokoviDodaj from './pages/rokovi/RokoviDodaj';
+import RokoviPromjena from './pages/rokovi/RokoviPromjena';
 
 function App() {
   
@@ -35,6 +38,10 @@ function App() {
         <Route path={RouteNames.KOLEGIJ_PREGLED} element={<KolegijiPregled />} />
         <Route path={RouteNames.KOLEGIJ_NOVI} element={<KolegijiDodaj />} />
         <Route path={RouteNames.KOLEGIJ_PROMJENA} element={<KolegijiPromjena />} />
+
+        <Route path={RouteNames.ISPITNI_ROK_PREGLED} element={<RokoviPregled />} />
+        <Route path={RouteNames.ISPITNI_ROK_NOVI} element={<RokoviDodaj />} />
+        <Route path={RouteNames.ISPITNI_ROK_PROMJENA} element={<RokoviPromjena />} />
 
       </Routes>
       <hr />

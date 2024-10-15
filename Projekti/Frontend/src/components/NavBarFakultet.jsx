@@ -22,7 +22,7 @@ const navigate = useNavigate();
                 Kolegiji
               </NavDropdown.Item>
               <NavDropdown.Item onClick={()=>navigate(RouteNames.STUDENT_PREGLED)}>Studenti</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.4">
+              <NavDropdown.Item onClick={()=>navigate(RouteNames.ISPITNI_ROK_PREGLED)}>
                 Ispitni rokovi
               </NavDropdown.Item>
             </NavDropdown>
