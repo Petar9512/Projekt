@@ -11,12 +11,12 @@ export default function KolegijiPregled(){
     const navigate = useNavigate();
 
     async function dohvatiKolegije() {
-
-        await KolegijService.get()
-        .then((odgovor)=>{
-            setKolegiji(odgovor);
-        })
-        .catch((e)=>{console.log(e)});
+        const odgovor = await KolegijService.get();
+        if (odgovor.greska) {
+            alert(odgovor.poruka)
+            return
+        }
+        setKolegiji(odgovor.poruka)      
     }
 
     useEffect(()=>{
