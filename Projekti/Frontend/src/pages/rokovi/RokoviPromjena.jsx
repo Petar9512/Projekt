@@ -66,9 +66,9 @@ export default function RokoviPromjena() {
     return(
     <>
     <hr />
-    <Form onSubmit={obradiSubmit}>
+    <Form className="podebljano" onSubmit={obradiSubmit}>
         <Form.Group controlId='kolegij'>
-            <Form.Label className="podebljano">Kolegij</Form.Label>
+            <Form.Label>Kolegij</Form.Label>
             <Form.Select value={kolegijSifra} onChange={(e)=>{setKolegijSifra(e.target.value)}}>
                 {kolegiji && kolegiji.map((k, index)=>(
                     <option key={index} value={k.sifra}>
@@ -79,13 +79,13 @@ export default function RokoviPromjena() {
         </Form.Group>
         <hr />
         <Form.Group controlId="vrstaIspita">
-            <Form.Label className="podebljano">Vrsta ispita</Form.Label>
+            <Form.Label>Vrsta ispita</Form.Label>
             <Form.Control type="text" name="vrstaIspita" required defaultValue={rok.vrstaIspita} />
         </Form.Group>
         <hr />
 
         <Form.Group controlId="datum">
-            <Form.Label className="podebljano">Vrijeme</Form.Label>
+            <Form.Label>Vrijeme</Form.Label>
             <Form.Control type="datetime-local" name="datum" required defaultValue={rok.datum} />
         </Form.Group>
 

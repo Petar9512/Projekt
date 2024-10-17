@@ -31,16 +31,16 @@ export default function SmjeroviDodaj() {
     return(
         <>
         <hr />
-        <Form onSubmit={obradiSubmit}>
+        <Form className="podebljano" onSubmit={obradiSubmit}>
 
             <Form.Group controlId="naziv">
-                <Form.Label className="podebljano">Naziv</Form.Label>
+                <Form.Label>Naziv</Form.Label>
                 <Form.Control type="text" name="naziv" required />
             </Form.Group>
             <hr />
 
             <Form.Group controlId="brojStudenata">
-                <Form.Label className="podebljano">Broj mjesta</Form.Label>
+                <Form.Label>Broj mjesta</Form.Label>
                 <Form.Control type="number" min={20} max={80} name="brojStudenata" required />
             </Form.Group>
             <hr />

@@ -46,9 +46,9 @@ export default function RokoviDodaj() {
         return(
         <>
         <hr />
-        <Form onSubmit={obradiSubmit}>
+        <Form className="podebljano" onSubmit={obradiSubmit}>
             <Form.Group controlId='kolegij'>
-                <Form.Label className="podebljano">Kolegij</Form.Label>
+                <Form.Label>Kolegij</Form.Label>
                 <Form.Select onChange={(e)=>{setKolegijSifra(e.target.value)}}>
                     {kolegiji && kolegiji.map((k, index)=>(
                         <option key={index} value={k.sifra}>
@@ -59,13 +59,13 @@ export default function RokoviDodaj() {
             </Form.Group>
             <hr />
             <Form.Group controlId="vrstaIspita">
-                <Form.Label className="podebljano">Vrsta ispita</Form.Label>
+                <Form.Label>Vrsta ispita</Form.Label>
                 <Form.Control type="text" name="vrstaIspita" required />
             </Form.Group>
             <hr />
 
             <Form.Group controlId="datum">
-                <Form.Label className="podebljano">Vrijeme</Form.Label>
+                <Form.Label>Vrijeme</Form.Label>
                 <Form.Control type="datetime-local" name="datum" required />
             </Form.Group>
 

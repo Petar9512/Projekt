@@ -47,9 +47,9 @@ export default function StudentiDodaj() {
         return(
         <>
         <hr />
-        <Form onSubmit={obradiSubmit}>
+        <Form className="podebljano" onSubmit={obradiSubmit}>
             <Form.Group controlId='smjer'>
-                <Form.Label className="podebljano">Smjer</Form.Label>
+                <Form.Label>Smjer</Form.Label>
                 <Form.Select onChange={(e)=>{setSmjerSifra(e.target.value)}}>
                     {smjerovi && smjerovi.map((s, index)=>(
                         <option key={index} value={s.sifra}>
@@ -60,19 +60,19 @@ export default function StudentiDodaj() {
             </Form.Group>
             <hr />
             <Form.Group controlId="ime">
-                <Form.Label className="podebljano">Ime</Form.Label>
+                <Form.Label>Ime</Form.Label>
                 <Form.Control type="text" name="ime" required />
             </Form.Group>
             <hr />
 
             <Form.Group controlId="prezime">
-                <Form.Label className="podebljano">Prezime</Form.Label>
+                <Form.Label>Prezime</Form.Label>
                 <Form.Control type="text" name="prezime" required />
             </Form.Group>
             <hr />
 
             <Form.Group controlId="oib">
-                <Form.Label className="podebljano">Oib</Form.Label>
+                <Form.Label>Oib</Form.Label>
                 <Form.Control type="text" name="oib" />
             </Form.Group>
 

@@ -66,9 +66,9 @@ export default function KolegijiPromjena() {
     return(
     <>
     <hr />
-    <Form onSubmit={obradiSubmit}>
+    <Form className="podebljano" onSubmit={obradiSubmit}>
         <Form.Group controlId='smjer'>
-            <Form.Label className="podebljano">Smjer</Form.Label>
+            <Form.Label>Smjer</Form.Label>
             <Form.Select value={smjerSifra} onChange={(e)=>{setSmjerSifra(e.target.value)}}>
                 {smjerovi && smjerovi.map((s, index)=>(
                     <option key={index} value={s.sifra}>
@@ -79,13 +79,13 @@ export default function KolegijiPromjena() {
         </Form.Group>
         <hr />
         <Form.Group controlId="naziv">
-            <Form.Label className="podebljano">Naziv</Form.Label>
+            <Form.Label>Naziv</Form.Label>
             <Form.Control type="text" name="naziv" required defaultValue={kolegij.naziv} />
         </Form.Group>
         <hr />
 
         <Form.Group controlId="predavac">
-            <Form.Label className="podebljano">Predavač</Form.Label>
+            <Form.Label>Predavač</Form.Label>
             <Form.Control type="text" name="predavac" required defaultValue={kolegij.predavac} />
         </Form.Group>
         <hr />
