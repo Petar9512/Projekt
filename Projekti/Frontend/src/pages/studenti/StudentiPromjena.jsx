@@ -65,9 +65,10 @@ export default function StudentiPromjena() {
 
     return(
     <>
+    <hr />
     <Form onSubmit={obradiSubmit}>
         <Form.Group controlId='smjer'>
-            <Form.Label>Smjer</Form.Label>
+            <Form.Label className="podebljano">Smjer</Form.Label>
             <Form.Select value={smjerSifra} onChange={(e)=>{setSmjerSifra(e.target.value)}}>
                 {smjerovi && smjerovi.map((s, index)=>(
                     <option key={index} value={s.sifra}>
@@ -76,18 +77,21 @@ export default function StudentiPromjena() {
                 ))}
             </Form.Select>
         </Form.Group>
+        <hr />
         <Form.Group controlId="ime">
-            <Form.Label>Ime</Form.Label>
+            <Form.Label className="podebljano">Ime</Form.Label>
             <Form.Control type="text" name="ime" required defaultValue={student.ime} />
         </Form.Group>
+        <hr />
 
         <Form.Group controlId="prezime">
-            <Form.Label>Prezime</Form.Label>
+            <Form.Label className="podebljano">Prezime</Form.Label>
             <Form.Control type="text" name="prezime" required defaultValue={student.prezime} />
         </Form.Group>
+        <hr />
 
         <Form.Group controlId="oib">
-            <Form.Label>Oib</Form.Label>
+            <Form.Label className="podebljano">Oib</Form.Label>
             <Form.Control type="text" name="oib" defaultValue={student.oib} />
         </Form.Group>
 
@@ -95,10 +99,10 @@ export default function StudentiPromjena() {
 
         <Row>
             <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
-            <Link to={RouteNames.STUDENT_PREGLED} className="btn btn-danger siroko">Odustani</Link>
+            <Link to={RouteNames.STUDENT_PREGLED} className="btn btn-danger siroko crta">Odustani</Link>
             </Col>
             <Col xs={6} sm={6} md={9} lg={6} xl={6} xxl={6}>
-            <Button variant="primary" type="submit" className="siroko">Promijeni studenta</Button>
+            <Button variant="primary" type="submit" className="siroko crta">Promijeni studenta</Button>
             </Col>
         </Row>
     </Form>

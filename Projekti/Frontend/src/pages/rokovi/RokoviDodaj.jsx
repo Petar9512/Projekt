@@ -45,9 +45,10 @@ export default function RokoviDodaj() {
 
         return(
         <>
+        <hr />
         <Form onSubmit={obradiSubmit}>
             <Form.Group controlId='kolegij'>
-                <Form.Label>Kolegij</Form.Label>
+                <Form.Label className="podebljano">Kolegij</Form.Label>
                 <Form.Select onChange={(e)=>{setKolegijSifra(e.target.value)}}>
                     {kolegiji && kolegiji.map((k, index)=>(
                         <option key={index} value={k.sifra}>
@@ -56,24 +57,26 @@ export default function RokoviDodaj() {
                     ))}
                 </Form.Select>
             </Form.Group>
+            <hr />
             <Form.Group controlId="vrstaIspita">
-                <Form.Label>Vrsta ispita</Form.Label>
+                <Form.Label className="podebljano">Vrsta ispita</Form.Label>
                 <Form.Control type="text" name="vrstaIspita" required />
             </Form.Group>
+            <hr />
 
             <Form.Group controlId="datum">
-                <Form.Label>Vrijeme</Form.Label>
-                <Form.Control type="date" name="datum" required />
+                <Form.Label className="podebljano">Vrijeme</Form.Label>
+                <Form.Control type="datetime-local" name="datum" required />
             </Form.Group>
 
             <hr />
 
             <Row>
                 <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
-                    <Link to={RouteNames.ISPITNI_ROK_PREGLED} className="btn btn-danger siroko">Odustani</Link>
+                    <Link to={RouteNames.ISPITNI_ROK_PREGLED} className="btn btn-danger siroko crta">Odustani</Link>
                 </Col>
                 <Col xs={6} sm={6} md={9} lg={6} xl={6} xxl={6}>
-                    <Button variant="primary" type="submit" className="siroko">Dodaj novi ispitni rok</Button>
+                    <Button variant="primary" type="submit" className="siroko crta">Dodaj novi ispitni rok</Button>
                 </Col>
             </Row>
         </Form>

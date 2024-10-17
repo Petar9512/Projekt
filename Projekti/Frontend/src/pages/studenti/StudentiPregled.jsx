@@ -40,7 +40,7 @@ export default function StudentiPregled(){
 
     return(
     <>
-    <Link to={RouteNames.STUDENT_NOVI} className="btn btn-success siroko">Dodaj novog studenta</Link>
+    <Link to={RouteNames.STUDENT_NOVI} className="btn btn-success siroko random podebljano crta">Dodaj novog studenta</Link>
     <Table striped bordered hover responsive>
         <thead>
             <tr>
@@ -57,9 +57,9 @@ export default function StudentiPregled(){
                     <td>{e.prezime}</td>
                     <td>{e.oib}</td>
                     <td>
-                        <Button variant="primary" onClick={()=>navigate(`/studenti/${e.sifra}`)}>Promijeni</Button>
+                        <Button className="crta" variant="primary" onClick={()=>navigate(`/studenti/${e.sifra}`)}>Promijeni</Button>
                         &nbsp;&nbsp;&nbsp;
-                        <Button variant="danger" onClick={()=>obrisi(e.sifra)}>Obriši</Button>
+                        <Button className="crta" variant="danger" onClick={()=>obrisi(e.sifra)}>Obriši</Button>
                     </td>
                 </tr>
             ))}

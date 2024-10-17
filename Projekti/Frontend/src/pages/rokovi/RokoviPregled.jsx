@@ -28,7 +28,7 @@ export default function RokoviPregled(){
         if (datum==null) {
             return "Nije definirano";
         }
-        return moment.utc(datum).format('DD.MM.YYYY. hh:mm:ss');
+        return moment.utc(datum).format('DD.MM.YYYY. h:mm A');
     }
 
     async function brisanjeRoka(sifra) {
@@ -47,7 +47,7 @@ export default function RokoviPregled(){
 
     return(
     <>
-    <Link to={RouteNames.ISPITNI_ROK_NOVI} className="btn btn-success siroko">Dodaj novi ispitni rok</Link>
+    <Link to={RouteNames.ISPITNI_ROK_NOVI} className="btn btn-success siroko random crta">Dodaj novi ispitni rok</Link>
     <Table striped bordered hover responsive>
         <thead>
             <tr>
@@ -62,9 +62,9 @@ export default function RokoviPregled(){
                     <td>{e.vrstaIspita}</td>
                     <td>{formatirajDatum(e.datum)}</td>
                     <td>
-                        <Button variant="primary" onClick={()=>navigate(`/rokovi/${e.sifra}`)}>Promijeni</Button>
+                        <Button className="crta" variant="primary" onClick={()=>navigate(`/rokovi/${e.sifra}`)}>Promijeni</Button>
                         &nbsp;&nbsp;&nbsp;
-                        <Button variant="danger" onClick={()=>obrisi(e.sifra)}>Obriši</Button>
+                        <Button className="crta" variant="danger" onClick={()=>obrisi(e.sifra)}>Obriši</Button>
                     </td>
                 </tr>
             ))}

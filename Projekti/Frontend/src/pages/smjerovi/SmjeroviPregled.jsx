@@ -42,7 +42,7 @@ dohvatiSmjerove();
 
     return(
         <>
-        <Link to={RouteNames.SMJER_NOVI} className="btn btn-success siroko">Dodaj novi smjer</Link>
+        <Link to={RouteNames.SMJER_NOVI} className="btn btn-success siroko random podebljano crta">Dodaj novi smjer</Link>
         <Table striped bordered hover responsive>
             <thead>
                 <tr>
@@ -61,9 +61,9 @@ dohvatiSmjerove();
                             {smjer.brojStudenata==null ? 'Nije definirano' : smjer.brojStudenata}
                         </td>
                         <td>
-                        <Button variant="danger" onClick={()=>obrisi(smjer.sifra)}>Obriši</Button>
+                        <Button className="crta" variant="danger" onClick={()=>obrisi(smjer.sifra)}>Obriši</Button>
                         &nbsp;&nbsp;&nbsp;
-                        <Button onClick={()=> navigate(`/smjerovi/${smjer.sifra}`) }>Promjena smjera</Button>
+                        <Button className="crta" onClick={()=> navigate(`/smjerovi/${smjer.sifra}`) }>Promjena smjera</Button>
                         </td>
                     </tr>
                 ))}

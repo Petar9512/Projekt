@@ -46,9 +46,10 @@ export default function KolegijiDodaj() {
 
         return(
         <>
+        <hr />
         <Form onSubmit={obradiSubmit}>
             <Form.Group controlId='smjer'>
-                <Form.Label>Smjer</Form.Label>
+                <Form.Label className="podebljano">Smjer</Form.Label>
                 <Form.Select onChange={(e)=>{setSmjerSifra(e.target.value)}}>
                     {smjerovi && smjerovi.map((s, index)=>(
                         <option key={index} value={s.sifra}>
@@ -57,15 +58,18 @@ export default function KolegijiDodaj() {
                     ))}
                 </Form.Select>
             </Form.Group>
+            <hr />
             <Form.Group controlId="naziv">
-                <Form.Label>Naziv</Form.Label>
+                <Form.Label className="podebljano">Naziv</Form.Label>
                 <Form.Control type="text" name="naziv" required />
             </Form.Group>
+            <hr />
 
             <Form.Group controlId="predavac">
-                <Form.Label>Predavač</Form.Label>
+                <Form.Label className="podebljano">Predavač</Form.Label>
                 <Form.Control type="text" name="predavac" required />
             </Form.Group>
+            <hr />
 
             <Form.Group controlId="obavezni">
                 <Form.Check label="Kolegij je obavezan?" name="obavezni" />
@@ -75,10 +79,10 @@ export default function KolegijiDodaj() {
 
             <Row>
                 <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
-                    <Link to={RouteNames.KOLEGIJ_PREGLED} className="btn btn-danger siroko">Odustani</Link>
+                    <Link to={RouteNames.KOLEGIJ_PREGLED} className="btn btn-danger siroko crta">Odustani</Link>
                 </Col>
                 <Col xs={6} sm={6} md={9} lg={6} xl={6} xxl={6}>
-                    <Button variant="primary" type="submit" className="siroko">Dodaj novi kolegij</Button>
+                    <Button variant="primary" type="submit" className="siroko crta">Dodaj novi kolegij</Button>
                 </Col>
             </Row>
         </Form>

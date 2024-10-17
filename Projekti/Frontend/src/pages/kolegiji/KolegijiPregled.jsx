@@ -46,7 +46,7 @@ export default function KolegijiPregled(){
 
     return(
     <>
-    <Link to={RouteNames.KOLEGIJ_NOVI} className="btn btn-success siroko">Dodaj novi kolegij</Link>
+    <Link to={RouteNames.KOLEGIJ_NOVI} className="btn btn-success siroko random podebljano crta">Dodaj novi kolegij</Link>
     <Table striped bordered hover responsive>
         <thead>
             <tr>
@@ -65,9 +65,9 @@ export default function KolegijiPregled(){
                         {obavezni(e.obavezni)}
                     </td>
                     <td>
-                        <Button variant="primary" onClick={()=>navigate(`/kolegiji/${e.sifra}`)}>Promijeni</Button>
+                        <Button className="crta" variant="primary" onClick={()=>navigate(`/kolegiji/${e.sifra}`)}>Promijeni</Button>
                         &nbsp;&nbsp;&nbsp;
-                        <Button variant="danger" onClick={()=>obrisi(e.sifra)}>Obriši</Button>
+                        <Button className="crta" variant="danger" onClick={()=>obrisi(e.sifra)}>Obriši</Button>
                     </td>
                 </tr>
             ))}

@@ -45,7 +45,7 @@ function App() {
 
       </Routes>
       <hr />
-      &copy; Fakultet
+      <p className="logo">&copy; Fakultet</p>
     </Container>
     </>
   )

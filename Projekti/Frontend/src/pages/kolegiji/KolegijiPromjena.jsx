@@ -65,9 +65,10 @@ export default function KolegijiPromjena() {
 
     return(
     <>
+    <hr />
     <Form onSubmit={obradiSubmit}>
         <Form.Group controlId='smjer'>
-            <Form.Label>Smjer</Form.Label>
+            <Form.Label className="podebljano">Smjer</Form.Label>
             <Form.Select value={smjerSifra} onChange={(e)=>{setSmjerSifra(e.target.value)}}>
                 {smjerovi && smjerovi.map((s, index)=>(
                     <option key={index} value={s.sifra}>
@@ -76,15 +77,18 @@ export default function KolegijiPromjena() {
                 ))}
             </Form.Select>
         </Form.Group>
+        <hr />
         <Form.Group controlId="naziv">
-            <Form.Label>Naziv</Form.Label>
+            <Form.Label className="podebljano">Naziv</Form.Label>
             <Form.Control type="text" name="naziv" required defaultValue={kolegij.naziv} />
         </Form.Group>
+        <hr />
 
         <Form.Group controlId="predavac">
-            <Form.Label>Predavač</Form.Label>
+            <Form.Label className="podebljano">Predavač</Form.Label>
             <Form.Control type="text" name="predavac" required defaultValue={kolegij.predavac} />
         </Form.Group>
+        <hr />
 
         <Form.Group controlId="obavezni">
             <Form.Check label="Kolegij je obavezan?" name="obavezni" defaultChecked={kolegij.obavezni} />
@@ -94,10 +98,10 @@ export default function KolegijiPromjena() {
 
         <Row>
             <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
-            <Link to={RouteNames.KOLEGIJ_PREGLED} className="btn btn-danger siroko">Odustani</Link>
+            <Link to={RouteNames.KOLEGIJ_PREGLED} className="btn btn-danger siroko crta">Odustani</Link>
             </Col>
             <Col xs={6} sm={6} md={9} lg={6} xl={6} xxl={6}>
-            <Button variant="primary" type="submit" className="siroko">Promijeni kolegij</Button>
+            <Button variant="primary" type="submit" className="siroko crta">Promijeni kolegij</Button>
             </Col>
         </Row>
     </Form>

@@ -1,3 +1,7 @@
+.logo {
+    font-style: italic;
+}
+
 .ruka {
     cursor: pointer;
     font-weight: bold;
@@ -11,10 +15,28 @@
     text-align: center;
 }
 
+.podebljano {
+    font-size: 110%;
+} 
+
+.crta {
+    border: 3px black inset;
+}
+
 .siroko {
     width: 100%;
 }
 
 .random {
     margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+hr {
+    color: green;
+    height: 3px;
+}
+
+td {
+    font-size: 104%;
 }
