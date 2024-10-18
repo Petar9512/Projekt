@@ -175,5 +175,31 @@ namespace Fakultet.Controllers
                 return BadRequest(new { poruka = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("trazi/{uvjet}")]
+        public ActionResult<List<StudentDTORead>> TraziStudenta(string uvjet)
+        {
+            if (uvjet == null || uvjet.Length < 3)
+            {
+                return BadRequest(ModelState);
+            }
+            uvjet = uvjet.ToLower();
+            try
+            {
+                IEnumerable<Student> query = _context.Studenti;
+                var niz = uvjet.Split(" ");
+                foreach (var s in uvjet.Split(" "))
+                {
+                    query = query.Where(p => p.Ime.ToLower().Contains(s) || p.Prezime.ToLower().Contains(s));
+                }
+                var studenti = query.ToList();
+                return Ok(_mapper.Map<List<StudentDTORead>>(studenti));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { poruka = e.Message });
+            }
+        }
     }
 }
