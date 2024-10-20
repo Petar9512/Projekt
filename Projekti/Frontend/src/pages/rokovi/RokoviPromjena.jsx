@@ -5,6 +5,7 @@ import { RouteNames } from "../../constants";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import KolegijService from "../../services/KolegijService";
 import moment from "moment";
+import StudentService from "../../services/StudentService";
 
 
 export default function RokoviPromjena() {
@@ -14,6 +15,8 @@ export default function RokoviPromjena() {
 
     const [kolegiji, setKolegiji] = useState([]);
     const [kolegijSifra, setKolegijSifra] = useState(0);
+    const [pristupnici, setPristupnici] = useState([]);
+    const [pronadeniPristupnici, setPronadeniPristupnici] = useState([]);
     const [rok, setRok] = useState({});
 
     async function dohvatiKolegije() {
@@ -32,9 +35,46 @@ export default function RokoviPromjena() {
         setKolegijSifra(rok.kolegijSifra);
     }
 
+    async function dohvatiPristupnike() {
+        const odgovor = await IspitniRokService.getPristupnici(routeParams.sifra);
+        if (odgovor.greska) {
+            alert (odgovor.poruka);
+            return;
+        }
+        setPristupnici(odgovor.poruka);
+    }
+
+    async function traziPristupnika(uvjet) {
+        const odgovor = await StudentService.TraziStudenta(uvjet);
+        if (odgovor.greska) {
+            alert (odgovor.poruka);
+            return;
+        }
+        setPronadeniPristupnici(odgovor.poruka);
+    }
+
+    async function dodajPristupnika(e) {
+        const odgovor = await IspitniRokService.dodajPristupnika(routeParams.sifra, e[0].sifra);
+        if (odgovor.greska) {
+            alert(odgovor.poruka);
+            return;
+        }
+        await dohvatiPristupnike();
+    }
+
+    async function obrisiPristupnika(student) {
+        const odgovor = await IspitniRokService.obrisiPristupnika(routeParams.sifra, student);
+        if (odgovor.greska) {
+            alert(odgovor.poruka);
+            return;
+        }
+        await dohvatiPristupnike();
+    }
+
     async function dohvatiInicijalnePodatke() {
         await dohvatiKolegije();
         await dohvatiRok();
+        await dohvatiPristupnike();
     }
 
     useEffect(()=> {
