@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { FaTrash } from 'react-icons/fa';
 import IspitniRokService from "../../services/IspitniRokService";
 import { RouteNames } from "../../constants";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row, Table } from "react-bootstrap";
 import KolegijService from "../../services/KolegijService";
 import moment from "moment";
 import StudentService from "../../services/StudentService";
+import { AsyncTypeahead } from 'react-bootstrap-typeahead';
+
 
 
 export default function RokoviPromjena() {
@@ -18,6 +21,7 @@ export default function RokoviPromjena() {
     const [pristupnici, setPristupnici] = useState([]);
     const [pronadeniPristupnici, setPronadeniPristupnici] = useState([]);
     const [rok, setRok] = useState({});
+    const typeAheadRef = useRef(null);
 
     async function dohvatiKolegije() {
         const odgovor = await KolegijService.get();
@@ -106,7 +110,9 @@ export default function RokoviPromjena() {
     return(
     <>
     <hr />
-    <Form className="podebljano" onSubmit={obradiSubmit}>
+    <Row>
+      <Col key='1' sm={12} lg={6} md={6}>
+        <Form className="podebljano" onSubmit={obradiSubmit}>
         <Form.Group controlId='kolegij'>
             <Form.Label>Kolegij</Form.Label>
             <Form.Select value={kolegijSifra} onChange={(e)=>{setKolegijSifra(e.target.value)}}>
@@ -139,6 +145,56 @@ export default function RokoviPromjena() {
             <Button variant="primary" type="submit" className="siroko crta">Promijeni ispitni rok</Button>
             </Col>
         </Row>
-    </Form>
-    </>)
+        </Form>
+     </Col>
+     <Col key='2' sm={12} lg={6} md={6}>
+        <div style={{overflow: 'auto', maxHeight: '400px'}}>
+            <Form.Group controlId='uvjet'>
+                <Form.Label>Traži pristupnika</Form.Label>
+                <AsyncTypeahead
+            className='autocomplete'
+            id='uvjet'
+            emptyLabel='Nema rezultata'
+            searchText='Tražim...'
+            labelKey={(student) => `${student.prezime} ${student.ime}`}
+            minLength={3}
+            options={pronadeniPristupnici}
+            onSearch={traziPristupnika}
+            placeholder='dio imena ili prezimena'
+            renderMenuItemChildren={(student) => (
+              <>
+                <span>
+                   {student.prezime} {student.ime}
+                </span>
+              </>
+            )}
+            onChange={dodajPristupnika}
+            ref={typeAheadRef}
+            />
+            </Form.Group>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Pristupnici na ispitnom roku</th>
+                        <th>Akcija</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {pristupnici && pristupnici.map((student, index)=>(
+                        <tr key={index}>
+                            <td>{student.ime} {student.prezime}</td>
+                            <td>
+                                <Button variant='danger' className='crta' onClick={()=>
+                                obrisiPristupnika(student.sifra)}>
+                                    <FaTrash />
+                                </Button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+        </div>
+     </Col>
+     </Row>
+    </>);
 }

@@ -83,7 +83,7 @@ async function dodajPristupnika(IspitniRok, student) {
 }
 
 async function obrisiPristupnika(IspitniRok, student) {
-    return await HttpService.delete('/IspitniRok/' + IspitniRok + '/dodaj/' + student)
+    return await HttpService.delete('/IspitniRok/' + IspitniRok + '/obrisi/' + student)
     .then((odgovor)=>{
         return {greska: false, poruka: odgovor.data}
     })
