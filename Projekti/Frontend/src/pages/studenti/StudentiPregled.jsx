@@ -1,27 +1,34 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import StudentService from "../../services/StudentService";
-import { Button, Table } from "react-bootstrap";
-import { RouteNames } from "../../constants";
+import { Button, Card, Col, Form, Pagination, Row } from "react-bootstrap";
+import { APP_URL, RouteNames } from "../../constants";
+import { IoIosAdd } from "react-icons/io";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 
 export default function StudentiPregled(){
 
     const [studenti, setStudenti] = useState();
-    const navigate = useNavigate();
+    const [stranica, setStranica] = useState(1);
+    const [uvjet, setUvjet] = useState('');
 
     async function dohvatiStudente() {
-
-        await StudentService.get()
-        .then((odgovor)=>{
-            setStudenti(odgovor);
-        })
-        .catch((e)=>{console.log(e)});
+        const odgovor = await StudentService.getStranicenje(stranica, uvjet);
+        if (odgovor.greska) {
+            alert(odgovor.poruka);
+            return;
+        }
+        if (odgovor.poruka.length==0) {
+            setStranica(stranica - 1);
+            return;
+        }
+        setStudenti(odgovor.poruka);
     }
 
     useEffect(()=>{
         dohvatiStudente();
-    }, []);
+    }, [stranica, uvjet]);
 
 
     async function brisanjeStudenta(sifra) {
@@ -37,33 +44,107 @@ export default function StudentiPregled(){
         brisanjeStudenta(sifra);
     }
 
+    function slika(student){
+        if(student.slika!=null){
+            return APP_URL + student.slika+ `?${Date.now()}`;
+        }
+        return defaultuser;
+    }
+
+    function promijeniUvjet(e) {
+        if (e.nativeEvent.key == "Enter") {
+            console.log('Enter')
+            setStranica(1);
+            setUvjet(e.nativeEvent.srcElement.value);
+            setPolaznici([]);
+        }
+    }
+
+    function povecajStranicu() {
+        setStranica(stranica + 1);
+    }
+
+    function smanjiStranicu() {
+        if (stranica==1) {
+            return;
+        }
+        setStranica(stranica - 1);
+    }
+
 
     return(
     <>
-    <Link to={RouteNames.STUDENT_NOVI} className="btn btn-success siroko random podebljano crta">Dodaj novog studenta</Link>
-    <Table striped bordered hover responsive>
-        <thead>
-            <tr>
-                <th>Ime</th>
-                <th>Prezime</th>
-                <th>OIB</th>
-                <th>Akcija</th>
-            </tr>
-        </thead>
-        <tbody>
-            {studenti && studenti.map((e, index)=>(
-                <tr key={index}>
-                    <td>{e.ime}</td>
-                    <td>{e.prezime}</td>
-                    <td>{e.oib}</td>
-                    <td>
-                        <Button className="crta" variant="primary" onClick={()=>navigate(`/studenti/${e.sifra}`)}>Promijeni</Button>
-                        &nbsp;&nbsp;&nbsp;
-                        <Button className="crta" variant="danger" onClick={()=>obrisi(e.sifra)}>Obriši</Button>
-                    </td>
-                </tr>
-            ))}
-        </tbody>
-    </Table>
+    <Row>
+                <Col key={1} sm={12} lg={4} md={4}>
+                    <Form.Control
+                    type='text'
+                    name='trazilica'
+                    placeholder='Dio imena i prezimena [Enter]'
+                    maxLength={255}
+                    defaultValue=''
+                    onKeyUp={promijeniUvjet}
+                    />
+                </Col>
+                <Col key={2} sm={12} lg={4} md={4}>
+                    {studenti && studenti.length > 0 && (
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                                <Pagination size="lg">
+                                <Pagination.Prev onClick={smanjiStranicu} />
+                                <Pagination.Item disabled>{stranica}</Pagination.Item> 
+                                <Pagination.Next
+                                    onClick={povecajStranicu}
+                                />
+                            </Pagination>
+                        </div>
+                    )}
+                </Col>
+                <Col key={3} sm={12} lg={4} md={4}>
+                    <Link to={RouteNames.STUDENT_NOVI} className="btn btn-success">
+                        <IoIosAdd
+                        size={25}
+                        /> Dodaj
+                    </Link>
+                </Col>
+            </Row>
+            
+                
+            <Row>
+                
+            { studenti && studenti.map((s) => (
+           
+           <Col key={s.sifra} sm={12} lg={3} md={3}>
+              <Card style={{ marginTop: '1rem' }}>
+              <Card.Img variant="top" src={slika(s)} />
+                <Card.Body>
+                  <Card.Title>{s.ime} {s.prezime}</Card.Title>
+                  <Card.Text>
+                    {s.oib}
+                  </Card.Text>
+                  <Row>
+                      <Col>
+                      <Link className="btn btn-primary" to={`/studenti/${s.sifra}`}><FaEdit /></Link>
+                      </Col>
+                      <Col>
+                      <Button variant="danger" onClick={() => obrisi(s.sifra)}><FaTrash /></Button>
+                      </Col>
+                    </Row>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))
+      }
+      </Row>
+      <hr />
+              {studenti && studenti.length > 0 && (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <Pagination size="lg">
+                    <Pagination.Prev onClick={smanjiStranicu} />
+                    <Pagination.Item disabled>{stranica}</Pagination.Item> 
+                    <Pagination.Next
+                        onClick={povecajStranicu}
+                    />
+                    </Pagination>
+                </div>
+                )}
     </>)
 }

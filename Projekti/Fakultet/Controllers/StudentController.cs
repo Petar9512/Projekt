@@ -201,5 +201,31 @@ namespace Fakultet.Controllers
                 return BadRequest(new { poruka = e.Message });
             }
         }
+
+        [HttpGet]
+        [Route("traziStranicenje/{stranica}")]
+        public IActionResult TraziStudentStranicenje(int stranica, string uvjet = "")
+        {
+            var poStranici = 4;
+            uvjet = uvjet.ToLower();
+            try
+            {
+                IEnumerable<Student> query = _context.Studenti.Skip((poStranici * stranica) - poStranici)
+                    .Take(poStranici)
+                    .OrderBy(s => s.Prezime);
+                var niz = uvjet.Split(" ");
+                foreach (var p in uvjet.Split(" "))
+                {
+                    query = query.Where(s => s.Ime.ToLower().Contains(p) || s.Prezime.ToLower().Contains(p));
+                }
+
+                var studenti = query.ToList();
+                return Ok(_mapper.Map<List<StudentDTORead>>(studenti));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

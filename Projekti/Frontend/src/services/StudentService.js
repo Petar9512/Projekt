@@ -74,11 +74,18 @@ async function TraziStudenta(uvjet) {
     .catch((e)=>{return {greska: true, poruka: "Problem kod pronalaženja studenta"}})
 }
 
+async function getStranicenje(stranica, uvjet) {
+    return await HttpService.get('/Student/traziStranicenje/' + stranica + '?uvjet=' + uvjet)
+    .then((odgovor)=>{return {greska: false, poruka: odgovor.data}})
+    .catch((e)=>{return {greska: true, poruka: "Problem kod traženja studenta"}})
+}
+
 export default {
     get,
     getBySifra,
     dodaj,
     obrisi,
     promjena,
-    TraziStudenta
+    TraziStudenta,
+    getStranicenje
 }
