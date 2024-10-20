@@ -66,10 +66,19 @@ async function promjena(sifra, Student){
     })
 }
 
+async function TraziStudenta(uvjet) {
+    return await HttpService.get('/Student/trazi/' + uvjet)
+    .then((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch((e)=>{return {greska: true, poruka: "Problem kod pronalaženja studenta"}})
+}
+
 export default {
     get,
     getBySifra,
     dodaj,
     obrisi,
-    promjena
+    promjena,
+    TraziStudenta
 }
