@@ -18,4 +18,5 @@ ISPITNI_ROK_NOVI: '/rokovi/dodaj',
 ISPITNI_ROK_PROMJENA: '/rokovi/:sifra'
 }
 
-export const BACKEND_URL = 'https://sandworm-001-site1.ftempurl.com/api/v1'
+export const APP_URL = 'https://sandworm-001-site1.ftempurl.com';
+export const BACKEND_URL = APP_URL + '/api/v1';
