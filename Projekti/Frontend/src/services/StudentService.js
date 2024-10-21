@@ -76,9 +76,15 @@ async function TraziStudenta(uvjet) {
 
 async function getStranicenje(stranica, uvjet) {
     return await HttpService.get('/Student/traziStranicenje/' + stranica + '?uvjet=' + uvjet)
-    .then((odgovor)=>{return {greska: false, poruka: odgovor.data}})
-    .catch((e)=>{return {greska: true, poruka: "Problem kod traženja studenta"}})
+    .then((odgovor)=>{return {greska: false, poruka: odgovor.data};})
+    .catch((e)=>{return {greska: true, poruka: "Problem kod traženja studenta"}});
 }
+
+async function postaviSliku(sifra, slika) {
+    return await HttpService.put('/Student/postaviSliku/' + sifra, slika)
+    .then((odgovor)=>{return  {greska: false, poruka: odgovor.data};})
+    .catch((e)=>{ return {greska: true, poruka: 'Problem kod postavljanja slike studenta'}});
+  }
 
 export default {
     get,
@@ -87,5 +93,6 @@ export default {
     obrisi,
     promjena,
     TraziStudenta,
-    getStranicenje
+    getStranicenje,
+    postaviSliku
 }

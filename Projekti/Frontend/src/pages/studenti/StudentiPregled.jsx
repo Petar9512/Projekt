@@ -5,6 +5,7 @@ import { Button, Card, Col, Form, Pagination, Row } from "react-bootstrap";
 import { APP_URL, RouteNames } from "../../constants";
 import { IoIosAdd } from "react-icons/io";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import defaultuser from '../../assets/defaultuser.jpg'; 
 
 
 export default function StudentiPregled(){
@@ -46,7 +47,7 @@ export default function StudentiPregled(){
 
     function slika(student){
         if(student.slika!=null){
-            return APP_URL + student.slika+ `?${Date.now()}`;
+            return APP_URL + student.slika + `?${Date.now()}`;
         }
         return defaultuser;
     }
@@ -99,7 +100,7 @@ export default function StudentiPregled(){
                     )}
                 </Col>
                 <Col key={3} sm={12} lg={4} md={4}>
-                    <Link to={RouteNames.STUDENT_NOVI} className="btn btn-success">
+                    <Link to={RouteNames.STUDENT_NOVI} className="btn btn-success gumb">
                         <IoIosAdd
                         size={25}
                         /> Dodaj
@@ -114,7 +115,7 @@ export default function StudentiPregled(){
            
            <Col key={s.sifra} sm={12} lg={3} md={3}>
               <Card style={{ marginTop: '1rem' }}>
-              <Card.Img variant="top" src={slika(s)} />
+              <Card.Img variant="top" src={slika(s)} className="slika"/>
                 <Card.Body>
                   <Card.Title>{s.ime} {s.prezime}</Card.Title>
                   <Card.Text>
@@ -122,10 +123,10 @@ export default function StudentiPregled(){
                   </Card.Text>
                   <Row>
                       <Col>
-                      <Link className="btn btn-primary" to={`/studenti/${s.sifra}`}><FaEdit /></Link>
+                      <Link className="btn btn-primary gumb" to={`/studenti/${s.sifra}`}><FaEdit /></Link>
                       </Col>
                       <Col>
-                      <Button variant="danger" onClick={() => obrisi(s.sifra)}><FaTrash /></Button>
+                      <Button variant="danger" className="gumb" onClick={() => obrisi(s.sifra)}><FaTrash /></Button>
                       </Col>
                     </Row>
                 </Card.Body>
