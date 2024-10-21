@@ -4,20 +4,23 @@ import IspitniRokService from "../../services/IspitniRokService";
 import { Button, Table } from "react-bootstrap";
 import { RouteNames } from "../../constants";
 import moment from "moment";
+import useLoading from "../../hooks/useLoading";
 
 
 export default function RokoviPregled(){
 
     const [rokovi, setRokovi] = useState();
     const navigate = useNavigate();
+    const { showLoading, hideLoading } = useLoading();
 
     async function dohvatiRokove() {
-
+        showLoading();
         await IspitniRokService.get()
         .then((odgovor)=>{
             setRokovi(odgovor);
         })
         .catch((e)=>{console.log(e)});
+        hideLoading();
     }
 
     useEffect(()=>{
@@ -32,7 +35,9 @@ export default function RokoviPregled(){
     }
 
     async function brisanjeRoka(sifra) {
+        showLoading();
         const odgovor = await IspitniRokService.obrisi(sifra);
+        hideLoading();
         if (odgovor.greska) {
             alert (odgovor.poruka);
             return;

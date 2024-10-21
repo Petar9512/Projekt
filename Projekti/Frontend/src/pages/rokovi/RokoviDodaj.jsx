@@ -5,15 +5,19 @@ import KolegijService from '../../services/KolegijService';
 import IspitniRokService from "../../services/IspitniRokService";
 import { useEffect, useState } from "react";
 import moment from "moment";
+import useLoading from "../../hooks/useLoading";
 
 export default function RokoviDodaj() {
 
     const navigate = useNavigate();
+    const { showLoading, hideLoading } = useLoading();
     const [kolegiji, setKolegiji] = useState([]);
     const [kolegijSifra, setKolegijSifra] = useState(0);
 
     async function dohvatiKolegije() {
+        showLoading();
         const odgovor = await KolegijService.get();
+        hideLoading();
         setKolegiji(odgovor.poruka);
         setKolegijSifra(odgovor.poruka[0].sifra);
     }
@@ -24,7 +28,9 @@ export default function RokoviDodaj() {
 
 
     async function dodaj(e) {
+        showLoading();
         const odgovor = await IspitniRokService.dodaj(e);
+        hideLoading();
         if (odgovor.greska) {
             alert (odgovor.poruka);
             return;

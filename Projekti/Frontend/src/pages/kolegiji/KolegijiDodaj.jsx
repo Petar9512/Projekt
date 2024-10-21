@@ -4,15 +4,20 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import SmjerService from '../../services/SmjerService';
 import KolegijService from "../../services/KolegijService";
 import { useEffect, useState } from "react";
+import useLoading from "../../hooks/useLoading";
+
 
 export default function KolegijiDodaj() {
 
     const navigate = useNavigate();
+    const { showLoading, hideLoading } = useLoading();
     const [smjerovi, setSmjerovi] = useState([]);
     const [smjerSifra, setSmjerSifra] = useState(0);
 
     async function dohvatiSmjerove() {
+        showLoading();
         const odgovor = await SmjerService.get();
+        hideLoading();
         setSmjerovi(odgovor.poruka);
         setSmjerSifra(odgovor.poruka[0].sifra);
     }
@@ -23,7 +28,9 @@ export default function KolegijiDodaj() {
 
 
     async function dodaj(e) {
+        showLoading();
         const odgovor = await KolegijService.dodaj(e);
+        hideLoading();
         if (odgovor.greska) {
             alert (odgovor.poruka);
             return;
@@ -67,7 +74,7 @@ export default function KolegijiDodaj() {
 
             <Form.Group controlId="predavac">
                 <Form.Label>Predavač</Form.Label>
-                <Form.Control type="text" name="predavac" required />
+                <Form.Control type="text" name="predavac" />
             </Form.Group>
             <hr />
 

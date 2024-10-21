@@ -1,16 +1,20 @@
 import SmjerService from "../../services/SmjerService"
 import { Button, Col, Form, Row } from "react-bootstrap";
-import moment from "moment/moment";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
+import useLoading from "../../hooks/useLoading";
+
 
 export default function SmjeroviDodaj() {
 
     const navigate = useNavigate()
+    const { showLoading, hideLoading } = useLoading();
 
     async function dodaj(smjer) {
         console.log(JSON.stringify(smjer))
+        showLoading();
         const odgovor = await SmjerService.dodaj(smjer)
+        hideLoading();
         if (odgovor.greska) {
             alert (odgovor.poruka)
             return;

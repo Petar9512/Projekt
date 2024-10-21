@@ -3,14 +3,18 @@ import SmjerService from "../../services/SmjerService"
 import { Button, Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
+import useLoading from "../../hooks/useLoading";
 
 export default function SmjeroviPregled() {
 
     const navigate = useNavigate()
+    const { showLoading, hideLoading } = useLoading();
     const[smjerovi, setSmjerovi] = useState()
 
 async function dohvatiSmjerove(){
+    showLoading();
 const odgovor = await SmjerService.get();
+hideLoading();
 if (odgovor.greska) {
     alert(odgovor.poruka)
     return
@@ -31,7 +35,9 @@ brisanjeSmjera(sifra)
 }
 
 async function brisanjeSmjera(sifra) {
+    showLoading();
 const odgovor = await SmjerService.brisanje(sifra);
+hideLoading();
 if (odgovor.greska) {
     alert(odgovor.poruka)
     return

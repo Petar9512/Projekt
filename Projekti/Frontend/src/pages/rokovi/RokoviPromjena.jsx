@@ -8,12 +8,14 @@ import KolegijService from "../../services/KolegijService";
 import moment from "moment";
 import StudentService from "../../services/StudentService";
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
+import useLoading from "../../hooks/useLoading";
 
 
 
 export default function RokoviPromjena() {
 
     const navigate = useNavigate();
+    const { showLoading, hideLoading } = useLoading();
     const routeParams = useParams();
 
     const [kolegiji, setKolegiji] = useState([]);
@@ -58,16 +60,21 @@ export default function RokoviPromjena() {
     }
 
     async function dodajPristupnika(e) {
+        showLoading();
         const odgovor = await IspitniRokService.dodajPristupnika(routeParams.sifra, e[0].sifra);
+        hideLoading();
         if (odgovor.greska) {
             alert(odgovor.poruka);
             return;
         }
         await dohvatiPristupnike();
+        typeAheadRef.current.clear();
     }
 
     async function obrisiPristupnika(student) {
+        showLoading();
         const odgovor = await IspitniRokService.obrisiPristupnika(routeParams.sifra, student);
+        hideLoading();
         if (odgovor.greska) {
             alert(odgovor.poruka);
             return;
@@ -76,9 +83,11 @@ export default function RokoviPromjena() {
     }
 
     async function dohvatiInicijalnePodatke() {
+        showLoading();
         await dohvatiKolegije();
         await dohvatiRok();
         await dohvatiPristupnike();
+        hideLoading();
     }
 
     useEffect(()=> {
@@ -87,7 +96,9 @@ export default function RokoviPromjena() {
 
 
     async function promjena(e) {
+        showLoading();
         const odgovor = await IspitniRokService.promjena(routeParams.sifra, e);
+        hideLoading();
         if (odgovor.greska) {
             alert (odgovor.poruka);
             return;
@@ -113,7 +124,7 @@ export default function RokoviPromjena() {
     <Row>
       <Col key='1' sm={12} lg={6} md={6}>
         <Form className="podebljano" onSubmit={obradiSubmit}>
-        <Form.Group controlId='kolegij'>
+        <Form.Group className='mb-3' controlId='kolegij'>
             <Form.Label>Kolegij</Form.Label>
             <Form.Select value={kolegijSifra} onChange={(e)=>{setKolegijSifra(e.target.value)}}>
                 {kolegiji && kolegiji.map((k, index)=>(
@@ -149,7 +160,7 @@ export default function RokoviPromjena() {
      </Col>
      <Col key='2' sm={12} lg={6} md={6}>
         <div style={{overflow: 'auto', maxHeight: '400px'}}>
-            <Form.Group controlId='uvjet'>
+            <Form.Group className='mb-3' controlId='uvjet'>
                 <Form.Label>Traži pristupnika</Form.Label>
                 <AsyncTypeahead
             className='autocomplete'

@@ -3,15 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 import KolegijService from "../../services/KolegijService";
 import { Button, Table } from "react-bootstrap";
 import { RouteNames } from "../../constants";
+import useLoading from "../../hooks/useLoading";
 
 
 export default function KolegijiPregled(){
 
     const [kolegiji, setKolegiji] = useState();
     const navigate = useNavigate();
+    const { showLoading, hideLoading } = useLoading();
 
     async function dohvatiKolegije() {
+        showLoading();
         const odgovor = await KolegijService.get();
+        hideLoading();
         if (odgovor.greska) {
             alert(odgovor.poruka)
             return
@@ -31,7 +35,9 @@ export default function KolegijiPregled(){
     }
 
     async function brisanjeKolegija(sifra) {
+        showLoading();
         const odgovor = await KolegijService.obrisi(sifra);
+        hideLoading();
         if (odgovor.greska) {
             alert (odgovor.poruka);
             return;
@@ -60,7 +66,7 @@ export default function KolegijiPregled(){
             {kolegiji && kolegiji.map((e, index)=>(
                 <tr key={index}>
                     <td>{e.naziv}</td>
-                    <td>{e.predavac == null ? "Nije definiran" : e.predavac}</td>
+                    <td>{(e.predavac == '' || e.predavac == null) ? "Nije definiran" : e.predavac}</td>
                     <td>
                         {obavezni(e.obavezni)}
                     </td>

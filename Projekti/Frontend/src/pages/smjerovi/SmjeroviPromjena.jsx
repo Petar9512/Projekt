@@ -1,18 +1,22 @@
 import SmjerService from "../../services/SmjerService"
 import { Button, Col, Form, Row } from "react-bootstrap";
-import moment from "moment/moment";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { RouteNames } from "../../constants";
 import { useEffect, useState } from "react";
+import useLoading from "../../hooks/useLoading";
+
 
 export default function SmjeroviPromjena() {
 
     const[smjer, setSmjer] = useState({})
     const navigate = useNavigate()
+    const { showLoading, hideLoading } = useLoading();
     const routeParams = useParams()
 
     async function dohvatiSmjer() {
+        showLoading();
         const odgovor = await SmjerService.getBySifra(routeParams.sifra)
+        hideLoading();
         if (odgovor.greska) {
             alert (odgovor.poruka)
             return;
@@ -26,7 +30,9 @@ export default function SmjeroviPromjena() {
      },[])
 
      async function promjena(smjer) {
+        showLoading();
         const odgovor = await SmjerService.promjena(routeParams.sifra, smjer)
+        hideLoading();
         if (odgovor.greska) {
             alert(odgovor.poruka)
             return;

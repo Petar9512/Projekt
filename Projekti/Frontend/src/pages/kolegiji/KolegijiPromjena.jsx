@@ -4,11 +4,13 @@ import KolegijService from "../../services/KolegijService";
 import { RouteNames } from "../../constants";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import SmjerService from "../../services/SmjerService";
+import useLoading from "../../hooks/useLoading";
 
 
 export default function KolegijiPromjena() {
 
     const navigate = useNavigate();
+    const { showLoading, hideLoading } = useLoading();
     const routeParams = useParams();
 
     const [smjerovi, setSmjerovi] = useState([]);
@@ -32,8 +34,10 @@ export default function KolegijiPromjena() {
     }
 
     async function dohvatiInicijalnePodatke() {
+        showLoading();
         await dohvatiSmjerove();
         await dohvatiKolegij();
+        hideLoading();
     }
 
     useEffect(()=> {
@@ -42,7 +46,9 @@ export default function KolegijiPromjena() {
 
 
     async function promjena(e) {
+        showLoading();
         const odgovor = await KolegijService.promjena(routeParams.sifra, e);
+        hideLoading();
         if (odgovor.greska) {
             alert (odgovor.poruka);
             return;
@@ -86,7 +92,7 @@ export default function KolegijiPromjena() {
 
         <Form.Group controlId="predavac">
             <Form.Label>Predavač</Form.Label>
-            <Form.Control type="text" name="predavac" required defaultValue={kolegij.predavac} />
+            <Form.Control type="text" name="predavac" defaultValue={kolegij.predavac} />
         </Form.Group>
         <hr />
 
