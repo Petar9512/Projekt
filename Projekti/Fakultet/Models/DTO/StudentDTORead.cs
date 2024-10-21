@@ -2,11 +2,12 @@
 {
     public record StudentDTORead(
 
-        int Sifra,
+        int? Sifra,
         string? SmjerNaziv,
         string Ime,
         string Prezime,
-        string? Oib
+        string? Oib,
+        string? Slika
         );
     
 }
