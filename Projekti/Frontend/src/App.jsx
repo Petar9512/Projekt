@@ -17,6 +17,8 @@ import KolegijiPromjena from './pages/kolegiji/KolegijiPromjena';
 import RokoviPregled from './pages/rokovi/RokoviPregled';
 import RokoviDodaj from './pages/rokovi/RokoviDodaj';
 import RokoviPromjena from './pages/rokovi/RokoviPromjena';
+import LoadingSpinner from './components/LoadingSpinner'
+
 
 function App() {
   
@@ -24,7 +26,8 @@ function App() {
   return (
     <>
     <Container>
-      <NavBarFakultet/>
+      <NavBarFakultet />
+      <LoadingSpinner />
       <Routes>
         <Route path={RouteNames.HOME} element={<Pocetna />} />
         <Route path={RouteNames.SMJER_PREGLED} element={<SmjeroviPregled />} />
