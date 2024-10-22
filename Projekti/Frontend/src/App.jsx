@@ -25,9 +25,9 @@ function App() {
 
   return (
     <>
+    <LoadingSpinner />
     <Container>
       <NavBarFakultet />
-      <LoadingSpinner />
       <Routes>
         <Route path={RouteNames.HOME} element={<Pocetna />} />
         <Route path={RouteNames.SMJER_PREGLED} element={<SmjeroviPregled />} />

@@ -12,9 +12,6 @@ namespace Fakultet.Mapping
             CreateMap<SmjerDTOInsertUpdate, Smjer>();
 
             CreateMap<Student, StudentDTORead>()
-                .ForCtorParam(
-                "SmjerNaziv",
-                opt => opt.MapFrom(src => src.Smjer.Naziv))
                 .ConstructUsing(entitet =>
                new StudentDTORead(
                   entitet.Sifra,
