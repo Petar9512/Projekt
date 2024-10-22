@@ -4,15 +4,20 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import SmjerService from '../../services/SmjerService';
 import StudentService from "../../services/StudentService";
 import { useEffect, useState } from "react";
+import useLoading from "../../hooks/useLoading";
+
 
 export default function StudentiDodaj() {
 
     const navigate = useNavigate();
+    const { showLoading, hideLoading } = useLoading();
     const [smjerovi, setSmjerovi] = useState([]);
     const [smjerSifra, setSmjerSifra] = useState(0);
 
     async function dohvatiSmjerove() {
+        showLoading();
         const odgovor = await SmjerService.get();
+        hideLoading();
         setSmjerovi(odgovor.poruka);
         setSmjerSifra(odgovor.poruka[0].sifra);
     }
@@ -23,7 +28,9 @@ export default function StudentiDodaj() {
 
 
     async function dodaj(e) {
+        showLoading();
         const odgovor = await StudentService.dodaj(e);
+        hideLoading();
         if (odgovor.greska) {
             alert (odgovor.poruka);
             return;

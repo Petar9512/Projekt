@@ -5,7 +5,8 @@ import { Button, Card, Col, Form, Pagination, Row } from "react-bootstrap";
 import { APP_URL, RouteNames } from "../../constants";
 import { IoIosAdd } from "react-icons/io";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import defaultuser from '../../assets/defaultuser.jpg'; 
+import defaultuser from '../../assets/defaultuser.jpg';
+import useLoading from "../../hooks/useLoading"; 
 
 
 export default function StudentiPregled(){
@@ -13,9 +14,12 @@ export default function StudentiPregled(){
     const [studenti, setStudenti] = useState();
     const [stranica, setStranica] = useState(1);
     const [uvjet, setUvjet] = useState('');
+    const { showLoading, hideLoading } = useLoading();
 
     async function dohvatiStudente() {
+        showLoading();
         const odgovor = await StudentService.getStranicenje(stranica, uvjet);
+        hideLoading();
         if (odgovor.greska) {
             alert(odgovor.poruka);
             return;
@@ -33,7 +37,9 @@ export default function StudentiPregled(){
 
 
     async function brisanjeStudenta(sifra) {
+        showLoading();
         const odgovor = await StudentService.obrisi(sifra);
+        hideLoading();
         if (odgovor.greska) {
             alert (odgovor.poruka);
             return;
@@ -57,7 +63,7 @@ export default function StudentiPregled(){
             console.log('Enter')
             setStranica(1);
             setUvjet(e.nativeEvent.srcElement.value);
-            setPolaznici([]);
+            setStudenti([]);
         }
     }
 

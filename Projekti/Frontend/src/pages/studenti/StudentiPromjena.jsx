@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import StudentService from "../../services/StudentService";
 import { APP_URL, RouteNames } from "../../constants";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Image, Row } from "react-bootstrap";
 import SmjerService from "../../services/SmjerService";
 import useLoading from "../../hooks/useLoading";
 import Cropper from 'react-cropper';
@@ -26,7 +26,9 @@ export default function StudentiPromjena() {
     const cropperRef = useRef(null);
 
     async function dohvatiSmjerove() {
+      showLoading();
         const odgovor = await SmjerService.get();
+        hideLoading();
         setSmjerovi(odgovor.poruka);
     }
 
