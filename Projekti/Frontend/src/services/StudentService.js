@@ -66,7 +66,7 @@ async function promjena(sifra, Student){
     })
 }
 
-async function TraziStudenta(uvjet) {
+async function traziStudenta(uvjet) {
     return await HttpService.get('/Student/trazi/' + uvjet)
     .then((odgovor)=>{
         return {greska: false, poruka: odgovor.data}
@@ -92,7 +92,7 @@ export default {
     dodaj,
     obrisi,
     promjena,
-    TraziStudenta,
+    traziStudenta,
     getStranicenje,
     postaviSliku
 }

@@ -4,6 +4,7 @@ using Fakultet.Models;
 using Fakultet.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Fakultet.Controllers
 {
