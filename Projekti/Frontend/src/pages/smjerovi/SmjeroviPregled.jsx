@@ -7,9 +7,9 @@ import useLoading from "../../hooks/useLoading";
 
 export default function SmjeroviPregled() {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
-    const[smjerovi, setSmjerovi] = useState()
+    const[smjerovi, setSmjerovi] = useState();
 
 async function dohvatiSmjerove(){
     showLoading();

@@ -7,7 +7,7 @@ import useLoading from "../../hooks/useLoading";
 
 export default function SmjeroviDodaj() {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
 
     async function dodaj(smjer) {

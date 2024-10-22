@@ -8,10 +8,10 @@ import useLoading from "../../hooks/useLoading";
 
 export default function SmjeroviPromjena() {
 
-    const[smjer, setSmjer] = useState({})
-    const navigate = useNavigate()
+    const[smjer, setSmjer] = useState({});
+    const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
-    const routeParams = useParams()
+    const routeParams = useParams();
 
     async function dohvatiSmjer() {
         showLoading();
