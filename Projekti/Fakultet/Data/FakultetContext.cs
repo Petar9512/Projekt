@@ -11,6 +11,7 @@ namespace Fakultet.Data
         public DbSet<Kolegij> Kolegiji { get; set; }
         public DbSet<Student> Studenti { get; set; }
         public DbSet<IspitniRok> IspitniRok { get; set; }
+        public DbSet<Operater> Operateri { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
