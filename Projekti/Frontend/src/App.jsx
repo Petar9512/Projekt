@@ -18,18 +18,32 @@ import RokoviPregled from './pages/rokovi/RokoviPregled';
 import RokoviDodaj from './pages/rokovi/RokoviDodaj';
 import RokoviPromjena from './pages/rokovi/RokoviPromjena';
 import LoadingSpinner from './components/LoadingSpinner'
+import Login from "./pages/Login"
+import useAuth from "./hooks/useAuth"
 
 
 function App() {
-  
 
+  const { isLoggedIn } = useAuth();
+
+  function godina(){
+    const pocenta = 2024;
+    const trenutna = new Date().getFullYear();
+    if(pocenta===trenutna){
+      return trenutna;
+    }
+    return pocenta + ' - ' + trenutna;
+  }
+  
   return (
     <>
     <LoadingSpinner />
-    <Container>
+    <Container className="aplikacija">
       <NavBarFakultet />
       <Routes>
         <Route path={RouteNames.HOME} element={<Pocetna />} />
+        {isLoggedIn ? (
+        <>
         <Route path={RouteNames.SMJER_PREGLED} element={<SmjeroviPregled />} />
         <Route path={RouteNames.SMJER_NOVI} element={<SmjeroviDodaj />} />
         <Route path={RouteNames.SMJER_PROMJENA} element={<SmjeroviPromjena />} />
@@ -45,11 +59,18 @@ function App() {
         <Route path={RouteNames.ISPITNI_ROK_PREGLED} element={<RokoviPregled />} />
         <Route path={RouteNames.ISPITNI_ROK_NOVI} element={<RokoviDodaj />} />
         <Route path={RouteNames.ISPITNI_ROK_PROMJENA} element={<RokoviPromjena />} />
-
+        </>
+        ) : (
+          <>
+            <Route path={RouteNames.LOGIN} element={<Login />} />
+          </>
+        )}
       </Routes>
+      </Container>
+      <Container>
       <hr />
-      <p className="logo">&copy; Fakultet</p>
-    </Container>
+      <p className="logo">Fakultet &copy; {godina()}</p>
+      </Container>
     </>
   )
 }

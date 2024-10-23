@@ -3,10 +3,12 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useNavigate } from 'react-router-dom';
 import { APP_URL, RouteNames } from '../constants';
+import useAuth from '../hooks/useAuth';
 
 export default function NavBarFakultet() {
 
 const navigate = useNavigate();
+const { logout, isLoggedIn } = useAuth();
 
 function OpenSwaggerURL(){
   window.open(APP_URL + "/swagger/index.html", "_blank")
@@ -15,11 +17,13 @@ function OpenSwaggerURL(){
     return(
     <>
     <Navbar expand="lg" className="bg-body-tertiary">
-        <Navbar.Brand className='ruka' onClick={()=> navigate(RouteNames.HOME)}>Fakultet APP</Navbar.Brand>
+        <Navbar.Brand href="/">Fakultet APP</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link onClick={()=>OpenSwaggerURL()}>Swagger</Nav.Link>
+          <Nav.Link onClick={()=>navigate(RouteNames.HOME)}>Početna</Nav.Link>
+          {isLoggedIn ? (
+            <>
             <NavDropdown title="Programi" id="basic-nav-dropdown">
               <NavDropdown.Item onClick={()=> navigate(RouteNames.SMJER_PREGLED)}>Smjerovi</NavDropdown.Item>
               <NavDropdown.Item onClick={()=>navigate(RouteNames.KOLEGIJ_PREGLED)}>
@@ -30,9 +34,17 @@ function OpenSwaggerURL(){
                 Ispitni rokovi
               </NavDropdown.Item>
             </NavDropdown>
+            <Nav.Link onClick={()=>OpenSwaggerURL()}>Swagger</Nav.Link>
+            <Nav.Link onClick={logout}>Odjava</Nav.Link>
+            </>
+          ) : (
+            <Nav.Link onClick={() => navigate(RouteNames.LOGIN)}>
+                  Prijava
+                </Nav.Link>
+          )}
           </Nav>
         </Navbar.Collapse>
     </Navbar>
     </>
-    )
+    );
 }
