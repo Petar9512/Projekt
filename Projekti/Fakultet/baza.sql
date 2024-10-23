@@ -1,3 +1,24 @@
+SELECT name, collation_name FROM sys.databases;
+GO
+ALTER DATABASE db_aad5a5_fakultet SET SINGLE_USER WITH
+ROLLBACK IMMEDIATE;
+GO
+ALTER DATABASE db_aad5a5_fakultet COLLATE Croatian_CI_AS;
+GO
+ALTER DATABASE db_aad5a5_fakultet SET MULTI_USER;
+GO
+SELECT name, db_aad5a5_fakultet FROM sys.databases;
+GO
+
+
+create table operateri(
+sifra int not null primary key identity(1,1),
+email varchar(50) not null,
+lozinka varchar(200) not null
+);
+
+insert into operateri values ('fakultet@fakultet.hr',
+'$2a$12$ek1mHS7cL6Ps/Y/O/.YjC.gLR5RAHX0jeLwgbaq4nVhLOy0tgd2X6');
 
 
 create table Smjerovi(
