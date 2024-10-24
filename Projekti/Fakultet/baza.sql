@@ -18,7 +18,7 @@ lozinka varchar(200) not null
 );
 
 insert into operateri values ('fakultet@fakultet.hr',
-'$2a$12$ek1mHS7cL6Ps/Y/O/.YjC.gLR5RAHX0jeLwgbaq4nVhLOy0tgd2X6');
+'$2a$12$MvZRkbzCbmdB8XL7vocR7etROqBCK8fo947Uj4k9G/.AQ/Ab5IXTS');
 
 
 create table Smjerovi(
