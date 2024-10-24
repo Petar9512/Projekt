@@ -17,7 +17,8 @@ ISPITNI_ROK_PREGLED: '/rokovi',
 ISPITNI_ROK_NOVI: '/rokovi/dodaj',
 ISPITNI_ROK_PROMJENA: '/rokovi/:sifra',
 
-LOGIN: '/login'
+LOGIN: '/login',
+NADZORNA_PLOCA: '/nadzornaploca'
 }
 
 export const APP_URL = 'https://sandworm-001-site1.ftempurl.com';

@@ -1,25 +1,26 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Container from 'react-bootstrap/Container';
+import Container from 'react-bootstrap/Container'
 import './App.css'
-import NavBarFakultet from './components/NavBarFakultet';
-import { Route, Routes } from 'react-router-dom';
-import { RouteNames } from './constants';
-import Pocetna from './pages/Pocetna';
-import SmjeroviPregled from './pages/smjerovi/SmjeroviPregled';
-import SmjeroviDodaj from './pages/smjerovi/SmjeroviDodaj';
-import SmjeroviPromjena from './pages/smjerovi/SmjeroviPromjena';
-import StudentiPregled from './pages/studenti/StudentiPregled';
-import StudentiDodaj from './pages/studenti/StudentiDodaj';
-import StudentiPromjena from './pages/studenti/StudentiPromjena';
-import KolegijiPregled from './pages/kolegiji/KolegijiPregled';
-import KolegijiDodaj from './pages/kolegiji/KolegijiDodaj';
-import KolegijiPromjena from './pages/kolegiji/KolegijiPromjena';
-import RokoviPregled from './pages/rokovi/RokoviPregled';
-import RokoviDodaj from './pages/rokovi/RokoviDodaj';
-import RokoviPromjena from './pages/rokovi/RokoviPromjena';
+import NavBarFakultet from './components/NavBarFakultet'
+import { Route, Routes } from 'react-router-dom'
+import { RouteNames } from './constants'
+import Pocetna from './pages/Pocetna'
+import SmjeroviPregled from './pages/smjerovi/SmjeroviPregled'
+import SmjeroviDodaj from './pages/smjerovi/SmjeroviDodaj'
+import SmjeroviPromjena from './pages/smjerovi/SmjeroviPromjena'
+import StudentiPregled from './pages/studenti/StudentiPregled'
+import StudentiDodaj from './pages/studenti/StudentiDodaj'
+import StudentiPromjena from './pages/studenti/StudentiPromjena'
+import KolegijiPregled from './pages/kolegiji/KolegijiPregled'
+import KolegijiDodaj from './pages/kolegiji/KolegijiDodaj'
+import KolegijiPromjena from './pages/kolegiji/KolegijiPromjena'
+import RokoviPregled from './pages/rokovi/RokoviPregled'
+import RokoviDodaj from './pages/rokovi/RokoviDodaj'
+import RokoviPromjena from './pages/rokovi/RokoviPromjena'
 import LoadingSpinner from './components/LoadingSpinner'
 import Login from "./pages/Login"
 import useAuth from "./hooks/useAuth"
+import NadzornaPloca from './pages/NadzornaPloca'
 
 
 function App() {
@@ -44,6 +45,8 @@ function App() {
         <Route path={RouteNames.HOME} element={<Pocetna />} />
         {isLoggedIn ? (
         <>
+        <Route path={RouteNames.NADZORNA_PLOCA} element={<NadzornaPloca />} />
+        
         <Route path={RouteNames.SMJER_PREGLED} element={<SmjeroviPregled />} />
         <Route path={RouteNames.SMJER_NOVI} element={<SmjeroviDodaj />} />
         <Route path={RouteNames.SMJER_PROMJENA} element={<SmjeroviPromjena />} />

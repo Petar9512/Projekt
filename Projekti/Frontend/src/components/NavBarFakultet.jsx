@@ -2,7 +2,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useNavigate } from 'react-router-dom';
-import { APP_URL, RouteNames } from '../constants';
+import { RouteNames, APP_URL } from '../constants';
 import useAuth from '../hooks/useAuth';
 
 export default function NavBarFakultet() {
@@ -24,6 +24,7 @@ function OpenSwaggerURL(){
           <Nav.Link onClick={()=>navigate(RouteNames.HOME)}>Početna</Nav.Link>
           {isLoggedIn ? (
             <>
+            <Nav.Link onClick={()=>navigate(RouteNames.NADZORNA_PLOCA)}>Nadzorna ploča</Nav.Link>
             <NavDropdown title="Programi" id="basic-nav-dropdown">
               <NavDropdown.Item onClick={()=> navigate(RouteNames.SMJER_PREGLED)}>Smjerovi</NavDropdown.Item>
               <NavDropdown.Item onClick={()=>navigate(RouteNames.KOLEGIJ_PREGLED)}>
