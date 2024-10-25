@@ -4,7 +4,6 @@ using Fakultet.Models;
 using Fakultet.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace Fakultet.Controllers
 {
@@ -276,6 +275,20 @@ namespace Fakultet.Controllers
                 _context.IspitniRok.Update(rok);
                 _context.SaveChanges();
                 return Ok(new { poruka = "Student " + pristupnik.Prezime + " " + pristupnik.Ime + " obrisan iz ispitnog roka - " + rok.Datum });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("GrafIspitnogRoka")]
+        public ActionResult<List<GrafIspitniRokDTO>> GrafIspitnogRoka()
+        {
+            try
+            {
+                return Ok(_mapper.Map<List<GrafIspitniRokDTO>>(_context.IspitniRok.Include(i => i.Pristupnici)));
             }
             catch (Exception ex)
             {

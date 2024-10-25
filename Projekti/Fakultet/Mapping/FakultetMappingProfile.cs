@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Fakultet.Models;
 using Fakultet.Models.DTO;
+using System.Text.RegularExpressions;
 namespace Fakultet.Mapping
 {
     public class FakultetMappingProfile : Profile
@@ -48,6 +49,12 @@ namespace Fakultet.Mapping
                 opt => opt.MapFrom(src => src.Kolegij.Sifra));
 
             CreateMap<IspitniRokDTOInsertUpdate, IspitniRok>();
+
+            CreateMap<IspitniRok, GrafIspitniRokDTO>()
+            .ConstructUsing(entitet =>
+             new GrafIspitniRokDTO(
+                entitet.Datum,
+                entitet.Pristupnici == null ? 0 : entitet.Pristupnici.Count()));
         }
 
         private static string? PutanjaDatoteke(Student e)
