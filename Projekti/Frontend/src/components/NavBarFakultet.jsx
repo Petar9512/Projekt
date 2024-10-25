@@ -15,7 +15,6 @@ function OpenSwaggerURL(){
 }
 
     return(
-    <>
     <Navbar expand="lg" className="bg-body-tertiary">
         <Navbar.Brand href="/">Fakultet APP</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -46,6 +45,5 @@ function OpenSwaggerURL(){
           </Nav>
         </Navbar.Collapse>
     </Navbar>
-    </>
     );
 }

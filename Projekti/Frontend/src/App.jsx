@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Container from 'react-bootstrap/Container'
 import './App.css'
+import { Container } from 'react-bootstrap'
 import NavBarFakultet from './components/NavBarFakultet'
 import { Route, Routes } from 'react-router-dom'
 import { RouteNames } from './constants'

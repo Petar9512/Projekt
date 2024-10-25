@@ -12,7 +12,7 @@ export default function Login() {
     const podatci = new FormData(e.target);
     login({
       email: podatci.get('email'),
-      password: podatci.get('lozinka'),
+      password: podatci.get('lozinka')
     });
   }
 

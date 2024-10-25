@@ -54,7 +54,7 @@ builder.Services.AddDbContext<FakultetContext>(opcije =>
 
 builder.Services.AddCors(opcije =>
 {
-    opcije.AddPolicy("Cors Policy",
+    opcije.AddPolicy("CorsPolicy",
         builder =>
         builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
         );
