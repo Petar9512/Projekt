@@ -51,7 +51,7 @@ export default function RokoviPromjena() {
     }
 
     async function traziPristupnika(uvjet) {
-        const odgovor = await StudentService.TraziStudenta(uvjet);
+        const odgovor = await StudentService.traziStudenta(uvjet);
         if (odgovor.greska) {
             alert (odgovor.poruka);
             return;

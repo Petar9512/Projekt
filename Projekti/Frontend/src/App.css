@@ -51,3 +51,7 @@ td {
     align-items: center;
     justify-content: center;
   }
+
+  .brojStudenata{
+    font-size: 5rem;
+  }
