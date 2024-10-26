@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fakultet.Controllers
 {
-    [Authorize]
+   // [Authorize]
     public abstract class FakultetController(FakultetContext context, IMapper mapper) : ControllerBase
     {
         protected readonly FakultetContext _context = context;
