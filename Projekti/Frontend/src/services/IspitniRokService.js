@@ -90,6 +90,25 @@ async function obrisiPristupnika(IspitniRok, student) {
     .catch((e)=>{return {greska: true, poruka: "Pristupnik se ne može obrisati iz ispitnog roka"}})
 }
 
+async function dostupniRokovi(){
+    return await HttpService.get('/Pocetna/DostupniRokovi')
+    .then((odgovor)=>{
+        //console.table(odgovor.data);
+        return odgovor.data;
+    })
+    .catch((e)=>{console.error(e)})
+}
+
+async function grafIspitnogRoka(){
+    return await HttpService.get('/IspitniRok/GrafIspitnogRoka')
+    .then((odgovor)=>{
+        //console.table(odgovor.data);
+        return odgovor.data;
+    })
+    .catch((e)=>{console.error(e)})
+}
+
+
 export default {
     get,
     getBySifra,
@@ -98,5 +117,7 @@ export default {
     promjena,
     getPristupnici,
     dodajPristupnika,
-    obrisiPristupnika
+    obrisiPristupnika,
+    dostupniRokovi,
+    grafIspitnogRoka
 }

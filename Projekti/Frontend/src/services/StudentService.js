@@ -86,6 +86,16 @@ async function postaviSliku(sifra, slika) {
     .catch((e)=>{ return {greska: true, poruka: 'Problem kod postavljanja slike studenta'}});
   }
 
+  async function ukupnoStudenata(){
+    return await HttpService.get('/Pocetna/UkupnoStudenata')
+    .then((odgovor)=>{
+        //console.table(odgovor.data);
+        return odgovor.data;
+    })
+    .catch((e)=>{console.error(e)})
+}
+
+
 export default {
     get,
     getBySifra,
@@ -94,5 +104,6 @@ export default {
     promjena,
     traziStudenta,
     getStranicenje,
-    postaviSliku
+    postaviSliku,
+    ukupnoStudenata
 }
