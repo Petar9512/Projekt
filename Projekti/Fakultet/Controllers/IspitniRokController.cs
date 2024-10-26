@@ -290,7 +290,8 @@ namespace Fakultet.Controllers
         {
             try
             {
-                return Ok(_mapper.Map<List<GrafIspitniRokDTO>>(_context.IspitniRok.Include(i => i.Pristupnici)));
+                return Ok(_mapper.Map<List<GrafIspitniRokDTO>>(_context.IspitniRok.Include(i => i.Kolegij)
+                    .Include(i => i.Pristupnici)));
             }
             catch (Exception ex)
             {

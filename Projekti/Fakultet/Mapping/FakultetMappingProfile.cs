@@ -53,7 +53,7 @@ namespace Fakultet.Mapping
             CreateMap<IspitniRok, GrafIspitniRokDTO>()
             .ConstructUsing(entitet =>
              new GrafIspitniRokDTO(
-                entitet.Datum,
+                entitet.Kolegij.Naziv ?? "",
                 entitet.Pristupnici == null ? 0 : entitet.Pristupnici.Count()));
         }
 

@@ -2,5 +2,5 @@
 
 namespace Fakultet.Models.DTO
 {
-    public record GrafIspitniRokDTO(DateTime DatumRoka, int UkupnoPristupnika);
+    public record GrafIspitniRokDTO(string NazivKolegija, int UkupnoPristupnika);
 }
