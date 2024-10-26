@@ -188,7 +188,7 @@ namespace Fakultet.Controllers
             uvjet = uvjet.ToLower();
             try
             {
-                IEnumerable<Student> query = _context.Studenti;
+                IEnumerable<Student> query = _context.Studenti.Include(s => s.Smjer);
                 var niz = uvjet.Split(" ");
                 foreach (var s in uvjet.Split(" "))
                 {
@@ -265,5 +265,23 @@ namespace Fakultet.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+       /* [HttpGet]
+        [Route("Generiraj/{broj:int}")]
+        public IActionResult Generiraj(int broj)
+        {
+            Student s;
+            for (int i = 0; i < broj; i++)
+            {
+                s = new Student()
+                {
+                    Ime = Faker.Name.First(),
+                    Prezime = Faker.Name.Last()
+                };
+                _context.Studenti.Add(s);
+                _context.SaveChanges();
+            }
+            return Ok();
+        } */
     }
 }

@@ -17,13 +17,13 @@ namespace Fakultet.Controllers
         {
             try
             {
-                var rokovi = _context.IspitniRok
+                var rokovi = _context.IspitniRok.Include(i => i.Kolegij)
                     .ToList();
 
                 var lista = new List<object>();
                 foreach (var rok in rokovi)
                 {
-                    lista.Add(new { Datum = rok.Datum });
+                    lista.Add(new { KolegijNaziv = rok.Kolegij.Naziv, Datum = rok.Datum });
                 }
 
                 return Ok(lista);

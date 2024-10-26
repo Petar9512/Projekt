@@ -192,7 +192,9 @@ namespace Fakultet.Controllers
             try
             {
                 var p = _context.IspitniRok
-                    .Include(i => i.Pristupnici).FirstOrDefault(x => x.Sifra == sifraRoka);
+                    .Include(i => i.Pristupnici)
+                    .ThenInclude(i => i.Smjer)
+                    .FirstOrDefault(x => x.Sifra == sifraRoka);
                 if (p == null)
                 {
                     return BadRequest("Ne postoji ispitni rok sa šifrom " + sifraRoka + " u bazi");
