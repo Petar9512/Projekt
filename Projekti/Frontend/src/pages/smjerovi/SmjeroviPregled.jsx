@@ -4,19 +4,21 @@ import { Button, Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
 import useLoading from "../../hooks/useLoading";
+import useError from '../../hooks/useError';
 
 export default function SmjeroviPregled() {
 
     const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
     const[smjerovi, setSmjerovi] = useState();
+    const { prikaziError } = useError();
 
 async function dohvatiSmjerove(){
     showLoading();
 const odgovor = await SmjerService.get();
 hideLoading();
 if (odgovor.greska) {
-    alert(odgovor.poruka)
+    prikaziError(odgovor.poruka)
     return
 }
 setSmjerovi(odgovor.poruka)
@@ -39,7 +41,7 @@ async function brisanjeSmjera(sifra) {
 const odgovor = await SmjerService.brisanje(sifra);
 hideLoading();
 if (odgovor.greska) {
-    alert(odgovor.poruka)
+    prikaziError(odgovor.poruka)
     return
 }
 dohvatiSmjerove();

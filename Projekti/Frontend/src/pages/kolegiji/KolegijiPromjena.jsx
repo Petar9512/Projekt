@@ -5,6 +5,7 @@ import { RouteNames } from "../../constants";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import SmjerService from "../../services/SmjerService";
 import useLoading from "../../hooks/useLoading";
+import useError from '../../hooks/useError';
 
 
 export default function KolegijiPromjena() {
@@ -12,6 +13,7 @@ export default function KolegijiPromjena() {
     const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
     const routeParams = useParams();
+    const { prikaziError } = useError();
 
     const [smjerovi, setSmjerovi] = useState([]);
     const [smjerSifra, setSmjerSifra] = useState(0);
@@ -25,7 +27,7 @@ export default function KolegijiPromjena() {
     async function dohvatiKolegij() {
         const odgovor = await KolegijService.getBySifra(routeParams.sifra);
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         let kolegij = odgovor.poruka;
@@ -50,7 +52,7 @@ export default function KolegijiPromjena() {
         const odgovor = await KolegijService.promjena(routeParams.sifra, e);
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         navigate(RouteNames.KOLEGIJ_PREGLED);

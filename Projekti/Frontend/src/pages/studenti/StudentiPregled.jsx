@@ -6,7 +6,8 @@ import { APP_URL, RouteNames } from "../../constants";
 import { IoIosAdd } from "react-icons/io";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import defaultuser from '../../assets/defaultuser.jpg';
-import useLoading from "../../hooks/useLoading"; 
+import useLoading from "../../hooks/useLoading";
+import useError from '../../hooks/useError';
 
 
 export default function StudentiPregled(){
@@ -15,13 +16,14 @@ export default function StudentiPregled(){
     const [stranica, setStranica] = useState(1);
     const [uvjet, setUvjet] = useState('');
     const { showLoading, hideLoading } = useLoading();
+    const { prikaziError } = useError();
 
     async function dohvatiStudente() {
         showLoading();
         const odgovor = await StudentService.getStranicenje(stranica, uvjet);
         hideLoading();
         if (odgovor.greska) {
-            alert(odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         if (odgovor.poruka.length==0) {
@@ -41,7 +43,7 @@ export default function StudentiPregled(){
         const odgovor = await StudentService.obrisi(sifra);
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         dohvatiStudente();

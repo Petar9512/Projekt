@@ -7,7 +7,8 @@ import SmjerService from "../../services/SmjerService";
 import useLoading from "../../hooks/useLoading";
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
-import defaultuser from '../../assets/defaultuser.jpg'; 
+import defaultuser from '../../assets/defaultuser.jpg';
+import useError from '../../hooks/useError';
 
 
 export default function StudentiPromjena() {
@@ -15,6 +16,7 @@ export default function StudentiPromjena() {
     const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
     const routeParams = useParams();
+    const { prikaziError } = useError();
 
     const [smjerovi, setSmjerovi] = useState([]);
     const [smjerSifra, setSmjerSifra] = useState(0);
@@ -37,8 +39,8 @@ export default function StudentiPromjena() {
         const odgovor = await StudentService.getBySifra(routeParams.sifra);
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka);
-            return;
+          prikaziError(odgovor.poruka);
+          return;
         }
         let student = odgovor.poruka;
         setStudent(student);
@@ -66,8 +68,8 @@ export default function StudentiPromjena() {
         const odgovor = await StudentService.promjena(routeParams.sifra, e);
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka);
-            return;
+          prikaziError(odgovor.poruka);
+          return;
         }
         navigate(RouteNames.STUDENT_PREGLED);
     }
@@ -114,7 +116,7 @@ export default function StudentiPromjena() {
         const odgovor = await StudentService.postaviSliku(routeParams.sifra, {Base64: base64.replace('data:image/jpg;base64,', '')});
         hideLoading();
         if(odgovor.greska){
-          alert(odgovor.podatci);
+          prikaziError(odgovor.podatci);
         }
         setTrenutnaSlika(slikaZaServer);
       }    

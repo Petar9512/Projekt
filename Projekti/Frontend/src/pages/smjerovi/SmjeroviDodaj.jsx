@@ -3,12 +3,14 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
 import useLoading from "../../hooks/useLoading";
+import useError from '../../hooks/useError';
 
 
 export default function SmjeroviDodaj() {
 
     const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
+    const { prikaziError } = useError();
 
     async function dodaj(smjer) {
         console.log(JSON.stringify(smjer))
@@ -16,7 +18,7 @@ export default function SmjeroviDodaj() {
         const odgovor = await SmjerService.dodaj(smjer)
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka)
+            prikaziError(odgovor.poruka)
             return;
         }
         navigate(RouteNames.SMJER_PREGLED)

@@ -9,7 +9,7 @@ import moment from "moment";
 import StudentService from "../../services/StudentService";
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import useLoading from "../../hooks/useLoading";
-
+import useError from '../../hooks/useError';
 
 
 export default function RokoviPromjena() {
@@ -17,6 +17,7 @@ export default function RokoviPromjena() {
     const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
     const routeParams = useParams();
+    const { prikaziError } = useError();
 
     const [kolegiji, setKolegiji] = useState([]);
     const [kolegijSifra, setKolegijSifra] = useState(0);
@@ -33,7 +34,7 @@ export default function RokoviPromjena() {
     async function dohvatiRok() {
         const odgovor = await IspitniRokService.getBySifra(routeParams.sifra);
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         let rok = odgovor.poruka;
@@ -44,7 +45,7 @@ export default function RokoviPromjena() {
     async function dohvatiPristupnike() {
         const odgovor = await IspitniRokService.getPristupnici(routeParams.sifra);
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         setPristupnici(odgovor.poruka);
@@ -53,7 +54,7 @@ export default function RokoviPromjena() {
     async function traziPristupnika(uvjet) {
         const odgovor = await StudentService.traziStudenta(uvjet);
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         setPronadeniPristupnici(odgovor.poruka);
@@ -64,7 +65,7 @@ export default function RokoviPromjena() {
         const odgovor = await IspitniRokService.dodajPristupnika(routeParams.sifra, e[0].sifra);
         hideLoading();
         if (odgovor.greska) {
-            alert(odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         await dohvatiPristupnike();
@@ -76,7 +77,7 @@ export default function RokoviPromjena() {
         const odgovor = await IspitniRokService.obrisiPristupnika(routeParams.sifra, student);
         hideLoading();
         if (odgovor.greska) {
-            alert(odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         await dohvatiPristupnike();
@@ -100,7 +101,7 @@ export default function RokoviPromjena() {
         const odgovor = await IspitniRokService.promjena(routeParams.sifra, e);
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         navigate(RouteNames.ISPITNI_ROK_PREGLED);

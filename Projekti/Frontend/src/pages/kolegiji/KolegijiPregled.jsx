@@ -4,6 +4,7 @@ import KolegijService from "../../services/KolegijService";
 import { Button, Table } from "react-bootstrap";
 import { RouteNames } from "../../constants";
 import useLoading from "../../hooks/useLoading";
+import useError from '../../hooks/useError';
 
 
 export default function KolegijiPregled(){
@@ -11,13 +12,14 @@ export default function KolegijiPregled(){
     const [kolegiji, setKolegiji] = useState();
     const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
+    const { prikaziError } = useError();
 
     async function dohvatiKolegije() {
         showLoading();
         const odgovor = await KolegijService.get();
         hideLoading();
         if (odgovor.greska) {
-            alert(odgovor.poruka)
+            prikaziError(odgovor.poruka)
             return
         }
         setKolegiji(odgovor.poruka)      
@@ -39,7 +41,7 @@ export default function KolegijiPregled(){
         const odgovor = await KolegijService.obrisi(sifra);
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         dohvatiKolegije();

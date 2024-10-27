@@ -5,6 +5,7 @@ import SmjerService from '../../services/SmjerService';
 import KolegijService from "../../services/KolegijService";
 import { useEffect, useState } from "react";
 import useLoading from "../../hooks/useLoading";
+import useError from '../../hooks/useError';
 
 
 export default function KolegijiDodaj() {
@@ -13,6 +14,7 @@ export default function KolegijiDodaj() {
     const { showLoading, hideLoading } = useLoading();
     const [smjerovi, setSmjerovi] = useState([]);
     const [smjerSifra, setSmjerSifra] = useState(0);
+    const { prikaziError } = useError();
 
     async function dohvatiSmjerove() {
         showLoading();
@@ -32,7 +34,7 @@ export default function KolegijiDodaj() {
         const odgovor = await KolegijService.dodaj(e);
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         navigate(RouteNames.KOLEGIJ_PREGLED);

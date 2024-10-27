@@ -38,7 +38,7 @@ async function dodaj(IspitniRok){
             case 400:
                 let poruke = '';
                 for (const kljuc in e.response.data.errors) {
-                    poruke += kljuc + ': ' + e.response.data.errors[kljuc][0] + '\n';
+                    poruke += kljuc + ': ' + e.response.data.errors[kljuc][0] + ', ';
                 }
                 return {greska: true, poruka: poruke}
             default:
@@ -57,7 +57,7 @@ async function promjena(sifra, IspitniRok){
             case 400:
                 let poruke = '';
                 for (const kljuc in e.response.data.errors) {
-                    poruke += kljuc + ': ' + e.response.data.errors[kljuc][0] + '\n';
+                    poruke += kljuc + ': ' + e.response.data.errors[kljuc][0] + ', ';
                 }
                 return {greska: true, poruka: poruke}
             default:

@@ -5,6 +5,7 @@ import SmjerService from '../../services/SmjerService';
 import StudentService from "../../services/StudentService";
 import { useEffect, useState } from "react";
 import useLoading from "../../hooks/useLoading";
+import useError from '../../hooks/useError';
 
 
 export default function StudentiDodaj() {
@@ -13,6 +14,7 @@ export default function StudentiDodaj() {
     const { showLoading, hideLoading } = useLoading();
     const [smjerovi, setSmjerovi] = useState([]);
     const [smjerSifra, setSmjerSifra] = useState(0);
+    const { prikaziError } = useError();
 
     async function dohvatiSmjerove() {
         showLoading();
@@ -32,7 +34,7 @@ export default function StudentiDodaj() {
         const odgovor = await StudentService.dodaj(e);
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         navigate(RouteNames.STUDENT_PREGLED);
@@ -48,7 +50,6 @@ export default function StudentiDodaj() {
                 prezime: podatci.get('prezime'),
                 oib: podatci.get('oib')
             });
-
         }
 
         return(
@@ -94,6 +95,5 @@ export default function StudentiDodaj() {
                 </Col>
             </Row>
         </Form>
-        </>)
-        
+        </>)  
     }

@@ -6,6 +6,7 @@ import IspitniRokService from "../../services/IspitniRokService";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import useLoading from "../../hooks/useLoading";
+import useError from '../../hooks/useError';
 
 export default function RokoviDodaj() {
 
@@ -13,6 +14,7 @@ export default function RokoviDodaj() {
     const { showLoading, hideLoading } = useLoading();
     const [kolegiji, setKolegiji] = useState([]);
     const [kolegijSifra, setKolegijSifra] = useState(0);
+    const { prikaziError } = useError();
 
     async function dohvatiKolegije() {
         showLoading();
@@ -32,7 +34,7 @@ export default function RokoviDodaj() {
         const odgovor = await IspitniRokService.dodaj(e);
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         navigate(RouteNames.ISPITNI_ROK_PREGLED);
@@ -86,6 +88,5 @@ export default function RokoviDodaj() {
                 </Col>
             </Row>
         </Form>
-        </>)
-        
+        </>)     
     }

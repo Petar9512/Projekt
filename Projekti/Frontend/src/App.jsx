@@ -21,11 +21,14 @@ import LoadingSpinner from './components/LoadingSpinner'
 import Login from "./pages/Login"
 import useAuth from "./hooks/useAuth"
 import NadzornaPloca from './pages/NadzornaPloca'
+import useError from "./hooks/useError"
+import ErrorModal from "./components/ErrorModal"
 
 
 function App() {
 
   const { isLoggedIn } = useAuth();
+  const { errors, prikaziErrorModal, sakrijError } = useError();
 
   function godina(){
     const pocenta = 2024;
@@ -39,6 +42,7 @@ function App() {
   return (
     <>
     <LoadingSpinner />
+    <ErrorModal show={prikaziErrorModal} errors={errors} onHide={sakrijError} />
     <Container className="aplikacija">
       <NavBarFakultet />
       <Routes>

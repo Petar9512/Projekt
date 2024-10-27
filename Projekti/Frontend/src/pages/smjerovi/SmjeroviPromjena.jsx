@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { RouteNames } from "../../constants";
 import { useEffect, useState } from "react";
 import useLoading from "../../hooks/useLoading";
+import useError from '../../hooks/useError';
 
 
 export default function SmjeroviPromjena() {
@@ -12,13 +13,14 @@ export default function SmjeroviPromjena() {
     const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
     const routeParams = useParams();
+    const { prikaziError } = useError();
 
     async function dohvatiSmjer() {
         showLoading();
         const odgovor = await SmjerService.getBySifra(routeParams.sifra)
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka)
+            prikaziError(odgovor.poruka)
             return;
         }
         let s = odgovor.poruka;
@@ -34,7 +36,7 @@ export default function SmjeroviPromjena() {
         const odgovor = await SmjerService.promjena(routeParams.sifra, smjer)
         hideLoading();
         if (odgovor.greska) {
-            alert(odgovor.poruka)
+            prikaziError(odgovor.poruka)
             return;
         }
         navigate(RouteNames.SMJER_PREGLED)

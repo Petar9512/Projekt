@@ -5,6 +5,7 @@ import { Button, Table } from "react-bootstrap";
 import { RouteNames } from "../../constants";
 import moment from "moment";
 import useLoading from "../../hooks/useLoading";
+import useError from '../../hooks/useError';
 
 
 export default function RokoviPregled(){
@@ -12,6 +13,7 @@ export default function RokoviPregled(){
     const [rokovi, setRokovi] = useState();
     const navigate = useNavigate();
     const { showLoading, hideLoading } = useLoading();
+    const { prikaziError } = useError();
 
     async function dohvatiRokove() {
         showLoading();
@@ -39,7 +41,7 @@ export default function RokoviPregled(){
         const odgovor = await IspitniRokService.obrisi(sifra);
         hideLoading();
         if (odgovor.greska) {
-            alert (odgovor.poruka);
+            prikaziError(odgovor.poruka);
             return;
         }
         dohvatiRokove();
