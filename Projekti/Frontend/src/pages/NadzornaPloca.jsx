@@ -53,8 +53,9 @@ export default function NadzornaPloca() {
 
   return (
     <>
-    <Row>   
-                    <Col xs={6} sm={6} md={3} lg={6} xl={6} xxl={6}>
+    <hr />
+    <Row className="podebljano">   
+                    <Col xs={10} sm={12} md={12} lg={6} xl={6} xxl={6}>
                     <ul>
                     {rokovi && rokovi.map((rok, index)=>(
                             <li key={index}>{rok.kolegijNaziv} - {formatirajDatum(rok.datum)}</li>
@@ -62,8 +63,8 @@ export default function NadzornaPloca() {
                     </ul>
                     </Col>
                     </Row>
-                   
-    <Container className='mt-4'>
+                   <hr />
+    <Container>
       {podatci.length > 0 && (
         <PieChart
           highcharts={Highcharts}

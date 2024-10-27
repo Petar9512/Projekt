@@ -32,7 +32,7 @@ export default function Pocetna(){
     return(
         <>
         <Row>
-                    <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={6}>
+                    <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                     <div className="brojStudenata random">
                     Do sada nam je povjerenje pokazalo -
                     <hr />
