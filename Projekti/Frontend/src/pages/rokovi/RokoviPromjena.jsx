@@ -161,7 +161,7 @@ export default function RokoviPromjena() {
      </Col>
      <Col key='2' sm={12} lg={6} md={6}>
         <div style={{overflow: 'auto', maxHeight: '400px'}}>
-            <Form.Group className='mb-3' controlId='uvjet'>
+            <Form.Group className='mb-3 podebljano' controlId='uvjet'>
                 <Form.Label>Traži pristupnika</Form.Label>
                 <AsyncTypeahead
             className='autocomplete'

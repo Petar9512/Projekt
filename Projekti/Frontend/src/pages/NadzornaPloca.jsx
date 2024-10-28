@@ -54,8 +54,8 @@ export default function NadzornaPloca() {
   return (
     <>
     <hr />
-    <Row className="podebljano">   
-                    <Col xs={10} sm={12} md={12} lg={6} xl={6} xxl={6}>
+    <Row>   
+                    <Col xs={12} sm={12} md={12} lg={6} xl={6} xxl={6}>
                     <ul>
                     {rokovi && rokovi.map((rok, index)=>(
                             <li key={index}>{rok.kolegijNaziv} - {formatirajDatum(rok.datum)}</li>

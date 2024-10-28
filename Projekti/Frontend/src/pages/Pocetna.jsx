@@ -34,7 +34,7 @@ export default function Pocetna(){
         <Row>
                     <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                     <div className="brojStudenata random">
-                    Do sada nam je povjerenje pokazalo -
+                    Do sada nam je povjerenje iskazalo -
                     <hr />
                     <CountUp
                     start={0}

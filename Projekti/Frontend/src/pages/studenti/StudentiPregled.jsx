@@ -83,6 +83,7 @@ export default function StudentiPregled(){
 
     return(
     <>
+    <hr />
     <Row>
                 <Col key={1} sm={12} lg={4} md={4}>
                     <Form.Control
@@ -108,7 +109,7 @@ export default function StudentiPregled(){
                     )}
                 </Col>
                 <Col key={3} sm={12} lg={4} md={4}>
-                    <Link to={RouteNames.STUDENT_NOVI} className="btn btn-success gumb">
+                    <Link to={RouteNames.STUDENT_NOVI} className="btn btn-success crta">
                         <IoIosAdd
                         size={25}
                         /> Dodaj
@@ -131,10 +132,10 @@ export default function StudentiPregled(){
                   </Card.Text>
                   <Row>
                       <Col>
-                      <Link className="btn btn-primary gumb" to={`/studenti/${s.sifra}`}><FaEdit /></Link>
+                      <Link className="btn btn-primary crta" to={`/studenti/${s.sifra}`}><FaEdit /></Link>
                       </Col>
                       <Col>
-                      <Button variant="danger" className="gumb" onClick={() => obrisi(s.sifra)}><FaTrash /></Button>
+                      <Button variant="danger" className="crta" onClick={() => obrisi(s.sifra)}><FaTrash /></Button>
                       </Col>
                     </Row>
                 </Card.Body>
