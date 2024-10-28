@@ -7,12 +7,36 @@ using System.Text;
 
 namespace Fakultet.Controllers
 {
+    /// <summary>
+    /// Kontroler za autorizaciju korisnika.
+    /// </summary>
+    /// <remarks>
+    /// Inicijalizira novu instancu klase <see cref="AutorizacijaController"/>.
+    /// </remarks>
+    /// <param name="context">Kontekst baze podataka.</param>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class AutorizacijaController(FakultetContext context) : ControllerBase
     {
+        /// <summary>
+        /// Kontekst baze podataka
+        /// </summary>
         private readonly FakultetContext _context = context;
 
+        /// <summary>
+        /// Generira token za autorizaciju.
+        /// </summary>
+        /// <param name="operater">DTO objekt koji sadrži email i lozinku operatera.</param>
+        /// <returns>JWT token ako je autorizacija uspješna, inače vraća status 403.</returns>
+        /// <remarks>
+        /// Primjer zahtjeva:
+        /// <code lang="json">
+        /// {
+        ///   "email": "fakultet@fakultet.hr",
+        ///   "password": "fakultet"
+        /// }
+        /// </code>
+        /// </remarks>
         [HttpPost("token")]
         public IActionResult GenerirajToken(OperaterDTO operater)
         {

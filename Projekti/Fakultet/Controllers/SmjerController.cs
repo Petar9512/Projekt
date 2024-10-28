@@ -6,11 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fakultet.Controllers
 {
+    /// <summary>
+    /// Kontroler za upravljanje smjerovima u aplikaciji.
+    /// </summary>
+    /// <param name="context">Instanca FakultetContext klase koja se koristi za pristup bazi podataka.</param>
+    /// <param name="mapper">Instanca IMapper sučelja koja se koristi za mapiranje objekata.</param>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class SmjerController(FakultetContext context, IMapper mapper) : FakultetController(context, mapper)
     {
-
+        /// <summary>
+        /// Dohvaća sve smjerove.
+        /// </summary>
+        /// <returns>Lista smjerova.</returns>
         [HttpGet]
         public ActionResult<List<SmjerDTORead>> Get()
         {
@@ -28,6 +36,11 @@ namespace Fakultet.Controllers
             }
         }
 
+        /// <summary>
+        /// Dohvaća smjer prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra smjera.</param>
+        /// <returns>Smjer sa zadanom šifrom.</returns>
         [HttpGet]
         [Route("{sifra:int}")]
         public ActionResult<SmjerDTORead> GetBySifra(int sifra)
@@ -52,6 +65,11 @@ namespace Fakultet.Controllers
             return Ok(_mapper.Map<SmjerDTORead>(e));
         }
 
+        /// <summary>
+        /// Dodaje novi smjer.
+        /// </summary>
+        /// <param name="dto">Podatci o smjeru.</param>
+        /// <returns>Status kreiranja.</returns>
         [HttpPost]
         public IActionResult Post(SmjerDTOInsertUpdate dto)
         {
@@ -72,6 +90,12 @@ namespace Fakultet.Controllers
             }
         }
 
+        /// <summary>
+        /// Ažurira postojeći smjer.
+        /// </summary>
+        /// <param name="sifra">Šifra smjera.</param>
+        /// <param name="dto">Podatci o smjeru.</param>
+        /// <returns>Status ažuriranja.</returns>
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -108,6 +132,11 @@ namespace Fakultet.Controllers
             }
         }
 
+        /// <summary>
+        /// Briše smjer prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra smjera.</param>
+        /// <returns>Status brisanja.</returns>
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]

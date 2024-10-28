@@ -7,11 +7,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fakultet.Controllers
 {
+    /// <summary>
+    /// Kontroler za upravljanje ispitnim rokovima u aplikaciji.
+    /// </summary>
+    /// <param name="context">Instanca FakultetContext klase koja se koristi za pristup bazi podataka.</param>
+    /// <param name="mapper">Instanca IMapper sučelja koja se koristi za mapiranje objekata.</param>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class IspitniRokController(FakultetContext context, IMapper mapper) : FakultetController(context, mapper)
     {
-
+        /// <summary>
+        /// Dohvaća sve ispitne rokove.
+        /// </summary>
+        /// <returns>Lista ispitnih rokova.</returns>
         [HttpGet]
         public ActionResult<List<IspitniRokDTORead>> Get()
         {
@@ -29,7 +37,11 @@ namespace Fakultet.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Dohvaća ispitni rok prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra ispitnog roka.</param>
+        /// <returns>Ispitni rok sa zadanom šifrom.</returns>
         [HttpGet]
         [Route("{sifra:int}")]
         public ActionResult<IspitniRokDTOInsertUpdate> GetBySifra(int sifra)
@@ -55,7 +67,11 @@ namespace Fakultet.Controllers
             return Ok(_mapper.Map<IspitniRokDTOInsertUpdate>(e));
         }
 
-
+        /// <summary>
+        /// Dodaje novi ispitni rok.
+        /// </summary>
+        /// <param name="dto">Podatci o ispitnom roku.</param>
+        /// <returns>Status kreiranja.</returns>
         [HttpPost]
         public IActionResult Post(IspitniRokDTOInsertUpdate dto)
         {
@@ -91,7 +107,12 @@ namespace Fakultet.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Ažurira postojeći ispitni rok.
+        /// </summary>
+        /// <param name="sifra">Šifra ispitnog roka.</param>
+        /// <param name="dto">Podatci o ispitnom roku.</param>
+        /// <returns>Status ažuriranja.</returns>
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -144,7 +165,11 @@ namespace Fakultet.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Briše ispitni rok prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra ispitnog roka.</param>
+        /// <returns>Status brisanja.</returns>
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -180,7 +205,11 @@ namespace Fakultet.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Dohvaća pristupnike roka prema šifri roka.
+        /// </summary>
+        /// <param name="sifraRoka">Šifra ispitnog roka.</param>
+        /// <returns>Lista pristupnika roka.</returns>
         [HttpGet]
         [Route("Studenti/{sifraRoka:int}")]
         public ActionResult<List<StudentDTORead>> GetPristupnici(int sifraRoka)
@@ -207,7 +236,12 @@ namespace Fakultet.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Dodaje pristupnika u ispitni rok.
+        /// </summary>
+        /// <param name="sifra">Šifra ispitnog roka.</param>
+        /// <param name="studentSifra">Šifra studenta.</param>
+        /// <returns>Status dodavanja.</returns>
         [HttpPost]
         [Route("{sifra:int}/dodaj/{studentSifra:int}")]
         public IActionResult DodajPristupnika(int sifra, int studentSifra)
@@ -246,7 +280,12 @@ namespace Fakultet.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Briše studenta iz ispitnog roka.
+        /// </summary>
+        /// <param name="sifra">Šifra ispitnog roka.</param>
+        /// <param name="studentSifra">Šifra studenta.</param>
+        /// <returns>Status brisanja.</returns>
         [HttpDelete]
         [Route("{sifra:int}/obrisi/{studentSifra:int}")]
         public IActionResult ObrisiPolaznika(int sifra, int studentSifra)
@@ -284,6 +323,10 @@ namespace Fakultet.Controllers
             }
         }
 
+        /// <summary>
+        /// Dohvaća graf ispitnog roka.
+        /// </summary>
+        /// <returns>Lista grafova ispitnog roka.</returns>
         [HttpGet]
         [Route("GrafIspitnogRoka")]
         public ActionResult<List<GrafIspitniRokDTO>> GrafIspitnogRoka()

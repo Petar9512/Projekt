@@ -8,11 +8,19 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Fakultet.Controllers
 {
+    /// <summary>
+    /// Kontroler za upravljanje studentima u aplikaciji.
+    /// </summary>
+    /// <param name="context">Instanca FakultetContext klase koja se koristi za pristup bazi podataka.</param>
+    /// <param name="mapper">Instanca IMapper sučelja koja se koristi za mapiranje objekata.</param>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class StudentController(FakultetContext context, IMapper mapper) : FakultetController(context, mapper)
     {
-
+        /// <summary>
+        /// Dohvaća sve studente.
+        /// </summary>
+        /// <returns>Lista studenata.</returns>
         [HttpGet]
         public ActionResult<List<StudentDTORead>> Get()
         {
@@ -30,6 +38,11 @@ namespace Fakultet.Controllers
             }
         }
 
+        /// <summary>
+        /// Dohvaća studenta prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra studenta.</param>
+        /// <returns>Student sa zadanom šifrom.</returns>
         [HttpGet]
         [Route("{sifra:int}")]
         public ActionResult<StudentDTOInsertUpdate> GetBySifra(int sifra)
@@ -54,6 +67,11 @@ namespace Fakultet.Controllers
             return Ok(_mapper.Map<StudentDTOInsertUpdate>(e));
         }
 
+        /// <summary>
+        /// Dodaje novog studenta.
+        /// </summary>
+        /// <param name="dto">Podatci o studentu.</param>
+        /// <returns>Status kreiranja.</returns>
         [HttpPost]
         public IActionResult Post(StudentDTOInsertUpdate dto)
         {
@@ -90,6 +108,12 @@ namespace Fakultet.Controllers
             }
         }
 
+        /// <summary>
+        /// Ažurira postojećeg studenta.
+        /// </summary>
+        /// <param name="sifra">Šifra studenta.</param>
+        /// <param name="dto">Podatci o studentu.</param>
+        /// <returns>Status ažuriranja.</returns>
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -142,6 +166,11 @@ namespace Fakultet.Controllers
             }
         }
 
+        /// <summary>
+        /// Briše studenta prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra studenta.</param>
+        /// <returns>Status brisanja.</returns>
         [HttpDelete]
         [Route("{sifra:int}")]
         [Produces("application/json")]
@@ -177,6 +206,11 @@ namespace Fakultet.Controllers
             }
         }
 
+        /// <summary>
+        /// Traži studente prema uvjetu.
+        /// </summary>
+        /// <param name="uvjet">Uvjet pretrage.</param>
+        /// <returns>Lista studenata.</returns>
         [HttpGet]
         [Route("trazi/{uvjet}")]
         public ActionResult<List<StudentDTORead>> TraziStudenta(string uvjet)
@@ -203,6 +237,12 @@ namespace Fakultet.Controllers
             }
         }
 
+        /// <summary>
+        /// Traži studente s paginacijom.
+        /// </summary>
+        /// <param name="stranica">Broj stranice.</param>
+        /// <param name="uvjet">Uvjet pretrage.</param>
+        /// <returns>Lista studenata.</returns>
         [HttpGet]
         [Route("traziStranicenje/{stranica}")]
         public IActionResult TraziStudentStranicenje(int stranica, string uvjet = "")
@@ -229,6 +269,12 @@ namespace Fakultet.Controllers
             }
         }
 
+        /// <summary>
+        /// Postavlja sliku za studenta.
+        /// </summary>
+        /// <param name="sifra">Šifra studenta.</param>
+        /// <param name="slika">Podatci o slici.</param>
+        /// <returns>Status postavljanja slike.</returns>
         [HttpPut]
         [Route("postaviSliku/{sifra:int}")]
         public IActionResult PostaviSliku(int sifra, SlikaDTO slika)

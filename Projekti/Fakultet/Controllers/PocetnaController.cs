@@ -6,11 +6,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fakultet.Controllers
 {
+    /// <summary>
+    /// Kontroler za početne operacije.
+    /// </summary>
+    /// <param name="_context">Kontekst baze podataka.</param>
+    /// <param name="_mapper">Mapper za mapiranje objekata.</param>
     [ApiController]
     [Route("api/v1/[controller]")]
     public class PocetnaController(FakultetContext _context, IMapper _mapper) : ControllerBase
     {
-
+        /// <summary>
+        /// Dohvaća dostupne ispitne rokove.
+        /// </summary>
+        /// <returns>Lista dostupnih rokova.</returns>
         [HttpGet]
         [Route("DostupniRokovi")]
         public ActionResult<List<IspitniRokDTORead>> DostupniRokovi()
@@ -34,6 +42,10 @@ namespace Fakultet.Controllers
             }
         }
 
+        /// <summary>
+        /// Dohvaća ukupan broj studenata.
+        /// </summary>
+        /// <returns>Ukupan broj studenata.</returns>
         [HttpGet]
         [Route("UkupnoStudenata")]
         public IActionResult UkupnoStudenata()

@@ -7,12 +7,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fakultet.Controllers
 {
-
-        [ApiController]
+    /// <summary>
+    /// Kontroler za upravljanje kolegijima u aplikaciji.
+    /// </summary>
+    /// <param name="context">Instanca FakultetContext klase koja se koristi za pristup bazi podataka.</param>
+    /// <param name="mapper">Instanca IMapper sučelja koja se koristi za mapiranje objekata.</param>
+    [ApiController]
         [Route("api/v1/[controller]")]
         public class KolegijController(FakultetContext context, IMapper mapper) : FakultetController(context, mapper)
         {
-
+        /// <summary>
+        /// Dohvaća sve kolegije.
+        /// </summary>
+        /// <returns>Lista kolegija.</returns>
         [HttpGet]
         public ActionResult<List<KolegijDTORead>> Get()
         {
@@ -30,8 +37,12 @@ namespace Fakultet.Controllers
             }
         }
 
-
-            [HttpGet]
+        /// <summary>
+        /// Dohvaća kolegij prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra kolegija.</param>
+        /// <returns>Kolegij sa zadanom šifrom.</returns>
+        [HttpGet]
             [Route("{sifra:int}")]
             public ActionResult<KolegijDTOInsertUpdate> GetBySifra(int sifra)
             {
@@ -56,8 +67,12 @@ namespace Fakultet.Controllers
             return Ok(_mapper.Map<KolegijDTOInsertUpdate>(e));
             }
 
-
-            [HttpPost]
+        /// <summary>
+        /// Dodaje novi kolegij.
+        /// </summary>
+        /// <param name="dto">Podatci o kolegiju.</param>
+        /// <returns>Status kreiranja.</returns>
+        [HttpPost]
             public IActionResult Post(KolegijDTOInsertUpdate dto)
             {
                 if (!ModelState.IsValid)
@@ -92,8 +107,13 @@ namespace Fakultet.Controllers
             }
             }
 
-
-            [HttpPut]
+        /// <summary>
+        /// Ažurira postojeći kolegij.
+        /// </summary>
+        /// <param name="sifra">Šifra kolegija.</param>
+        /// <param name="dto">Podatci o kolegiju.</param>
+        /// <returns>Status ažuriranja.</returns>
+        [HttpPut]
             [Route("{sifra:int}")]
             [Produces("application/json")]
             public IActionResult Put(int sifra, KolegijDTOInsertUpdate dto)
@@ -145,8 +165,12 @@ namespace Fakultet.Controllers
             }
             }
 
-
-            [HttpDelete]
+        /// <summary>
+        /// Briše kolegij prema šifri.
+        /// </summary>
+        /// <param name="sifra">Šifra kolegija.</param>
+        /// <returns>Status brisanja.</returns>
+        [HttpDelete]
             [Route("{sifra:int}")]
             [Produces("application/json")]
             public IActionResult Delete(int sifra)

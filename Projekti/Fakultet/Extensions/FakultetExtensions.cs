@@ -6,9 +6,15 @@ using System.Text;
 
 namespace Fakultet.Extensions
 {
+    /// <summary>
+    /// Klasa koja sadrži proširenja za Fakultet aplikaciju.
+    /// </summary>
     public static class FakultetExtensions
     {
-
+        /// <summary>
+        /// Dodaje konfiguraciju za Swagger dokumentaciju.
+        /// </summary>
+        /// <param name="Services">Instanca IServiceCollection.</param>
         public static void AddFakultetSwaggerGen(this IServiceCollection Services)
         {
             // prilagodba za dokumentaciju, čitati https://medium.com/geekculture/customizing-swagger-in-asp-net-core-5-2c98d03cbe52
@@ -66,13 +72,19 @@ namespace Fakultet.Extensions
                     });
 
                 // END SECURITY
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                sgo.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
 
 
             });
 
         }
 
-
+        /// <summary>
+        /// Dodaje konfiguraciju za CORS.
+        /// </summary>
+        /// <param name="Services">Instanca IServiceCollection.</param>
         public static void AddFakultetCORS(this IServiceCollection Services)
         {
             // Svi se od svuda na sve moguće načine mogu spojitina naš API
@@ -89,7 +101,10 @@ namespace Fakultet.Extensions
 
         }
 
-
+        /// <summary>
+        /// Dodaje konfiguraciju za sigurnost.
+        /// </summary>
+        /// <param name="Services">Instanca IServiceCollection.</param>
         public static void AddFakultetSecurity(this IServiceCollection Services)
         {
             // https://www.youtube.com/watch?v=mgeuh8k3I4g&ab_channel=NickChapsas

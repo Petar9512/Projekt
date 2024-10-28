@@ -4,9 +4,14 @@ using Fakultet.Models.DTO;
 using System.Text.RegularExpressions;
 namespace Fakultet.Mapping
 {
+    /// <summary>
+    /// Klasa za definiranje mapiranja između modela i DTO-a.
+    /// </summary>
     public class FakultetMappingProfile : Profile
     {
-
+        /// <summary>
+        /// Konstruktor u kojem se definiraju mapiranja.
+        /// </summary>
         public FakultetMappingProfile()
         {
             CreateMap<Smjer, SmjerDTORead>();
@@ -57,6 +62,11 @@ namespace Fakultet.Mapping
                 entitet.Pristupnici == null ? 0 : entitet.Pristupnici.Count()));
         }
 
+        /// <summary>
+        /// Metoda za dobivanje putanje do slike studenta.
+        /// </summary>
+        /// <param name="e">Objekt studenta.</param>
+        /// <returns>Putanja do slike ili null ako slika ne postoji.</returns>
         private static string? PutanjaDatoteke(Student e)
         {
             try
