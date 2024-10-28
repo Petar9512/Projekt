@@ -302,7 +302,7 @@ namespace Fakultet.Controllers
                 {
                     System.IO.Directory.CreateDirectory(dir);
                 }
-                var putanja = Path.Combine(dir + ds + sifra + ".jpg");
+                var putanja = Path.Combine(dir + ds + sifra + ".png");
                 System.IO.File.WriteAllBytes(putanja, Convert.FromBase64String(slika.Base64!));
                 return Ok("Uspješno pohranjena slika");
             }

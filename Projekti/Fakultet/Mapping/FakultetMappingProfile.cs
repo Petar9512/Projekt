@@ -73,8 +73,8 @@ namespace Fakultet.Mapping
             {
                 var ds = Path.DirectorySeparatorChar;
                 string slika = Path.Combine(Directory.GetCurrentDirectory()
-                    + ds + "wwwroot" + ds + "slike" + ds + "studenti" + ds + e.Sifra + ".jpg");
-                return File.Exists(slika) ? "/slike/studenti/" + e.Sifra + ".jpg" : null;
+                    + ds + "wwwroot" + ds + "slike" + ds + "studenti" + ds + e.Sifra + ".png");
+                return File.Exists(slika) ? "/slike/studenti/" + e.Sifra + ".png" : null;
             }
             catch
             {

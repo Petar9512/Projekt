@@ -113,7 +113,7 @@ export default function StudentiPromjena() {
       async function spremiSliku() {
         showLoading();
         const base64 = slikaZaServer;
-        const odgovor = await StudentService.postaviSliku(routeParams.sifra, {Base64: base64.replace('data:image/jpg;base64,', '')});
+        const odgovor = await StudentService.postaviSliku(routeParams.sifra, {Base64: base64.replace('data:image/png;base64,', '')});
         hideLoading();
         if(odgovor.greska){
           prikaziError(odgovor.podatci);
