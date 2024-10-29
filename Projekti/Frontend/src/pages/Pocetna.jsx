@@ -33,7 +33,7 @@ export default function Pocetna(){
         <>
         <Row>
                     <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
-                    <div className="brojStudenata random">
+                    <div className="brojStudenata" style={{'margin-top': '20px'}}>
                     Do sada nam je povjerenje iskazalo -
                     <hr />
                     <CountUp

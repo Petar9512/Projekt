@@ -65,7 +65,7 @@ dohvatiSmjerove();
                         <td>
                             {smjer.naziv}
                         </td>
-                        <td className={smjer.brojStudenata==null ? 'sredina' : 'desno'}>
+                        <td>
                             {smjer.brojStudenata==null ? 'Nije definirano' : smjer.brojStudenata}
                         </td>
                         <td>

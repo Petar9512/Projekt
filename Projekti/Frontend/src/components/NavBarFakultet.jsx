@@ -15,16 +15,16 @@ function OpenSwaggerURL(){
 }
 
     return(
-    <Navbar expand="lg" className="bg-body-tertiary">
-        <Navbar.Brand href="/">Fakultet APP</Navbar.Brand>
+    <Navbar expand="lg" className="bg-body-tertiary pomakni">
+        <Navbar.Brand href="/" className='logo'>Fakultet APP</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-          <Nav.Link onClick={()=>navigate(RouteNames.HOME)}>Početna</Nav.Link>
+          <Nav.Link className='okvir podebljano' onClick={()=>navigate(RouteNames.HOME)}>Početna</Nav.Link>
           {isLoggedIn ? (
             <>
-            <Nav.Link onClick={()=>navigate(RouteNames.NADZORNA_PLOCA)}>Nadzorna ploča</Nav.Link>
-            <NavDropdown title="Programi" id="basic-nav-dropdown">
+            <Nav.Link className='okvir2 podebljano' onClick={()=>navigate(RouteNames.NADZORNA_PLOCA)}>Nadzorna ploča</Nav.Link>
+            <NavDropdown title="Programi" id="basic-nav-dropdown" className='okvir3 podebljano'>
               <NavDropdown.Item onClick={()=> navigate(RouteNames.SMJER_PREGLED)}>Smjerovi</NavDropdown.Item>
               <NavDropdown.Item onClick={()=>navigate(RouteNames.KOLEGIJ_PREGLED)}>
                 Kolegiji
@@ -34,8 +34,8 @@ function OpenSwaggerURL(){
                 Ispitni rokovi
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link onClick={()=>OpenSwaggerURL()}>Swagger</Nav.Link>
-            <Nav.Link onClick={logout}>Odjava</Nav.Link>
+            <Nav.Link className='okvir4 podebljano' onClick={()=>OpenSwaggerURL()}>Swagger</Nav.Link>
+            <Nav.Link className='okvir5 podebljano' onClick={logout}>Odjava</Nav.Link>
             </>
           ) : (
             <Nav.Link onClick={() => navigate(RouteNames.LOGIN)}>
