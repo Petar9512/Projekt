@@ -38,7 +38,7 @@ function OpenSwaggerURL(){
             <Nav.Link className='okvir5 podebljano' onClick={logout}>Odjava</Nav.Link>
             </>
           ) : (
-            <Nav.Link onClick={() => navigate(RouteNames.LOGIN)}>
+            <Nav.Link className='okvir2 podebljano' onClick={() => navigate(RouteNames.LOGIN)}>
                   Prijava
                 </Nav.Link>
           )}

@@ -11,7 +11,7 @@ namespace Fakultet.Controllers
     /// </summary>
     /// <param name="context">Instanca FakultetContext klase koja se koristi za pristup bazi podataka.</param>
     /// <param name="mapper">Instanca IMapper sučelja koja se koristi za mapiranje objekata.</param>
-   // [Authorize]
+    [Authorize]
     public abstract class FakultetController(FakultetContext context, IMapper mapper) : ControllerBase
     {
         /// <summary>
