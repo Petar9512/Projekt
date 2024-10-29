@@ -312,22 +312,33 @@ namespace Fakultet.Controllers
             }
         }
 
-       /* [HttpGet]
+        /// <summary>
+        /// Generira studente.
+        /// </summary>
+        /// <param name="broj">Broj studenata za generiranje.</param>
+        /// <returns>Status generiranja.</returns>
+        [HttpGet]
         [Route("Generiraj/{broj:int}")]
         public IActionResult Generiraj(int broj)
         {
+            var smjerovi = _context.Smjerovi.ToList();
             Student s;
             for (int i = 0; i < broj; i++)
-            {
+            {  
                 s = new Student()
                 {
                     Ime = Faker.Name.First(),
-                    Prezime = Faker.Name.Last()
+                    Prezime = Faker.Name.Last(),
+                    Smjer = smjerovi[random(smjerovi.Count())]
                 };
                 _context.Studenti.Add(s);
                 _context.SaveChanges();
             }
             return Ok();
-        } */
+        }
+        private int random(int max)
+        {
+            return new Random().Next(max);
+        }
     }
 }
