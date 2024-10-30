@@ -58,6 +58,7 @@ export default function RokoviPregled(){
     <Table striped bordered hover responsive>
         <thead>
             <tr>
+                <th>Kolegij</th>
                 <th>Vrsta ispita</th>
                 <th>Vrijeme</th>
                 <th>Akcija</th>
@@ -66,6 +67,7 @@ export default function RokoviPregled(){
         <tbody>
             {rokovi && rokovi.map((e, index)=>(
                 <tr key={index}>
+                    <td>{e.kolegijNaziv}</td>
                     <td>{e.vrstaIspita}</td>
                     <td>{formatirajDatum(e.datum)}</td>
                     <td>
